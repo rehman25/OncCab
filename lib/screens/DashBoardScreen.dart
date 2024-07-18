@@ -74,26 +74,32 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   void init() async {
     getCurrentUserLocation();
-    riderIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), SourceIcon);
-    driverIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), MultipleDriver);
+    riderIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5), SourceIcon);
+    driverIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5), MultipleDriver);
     await getAppSetting().then((value) {
       if (value.walletSetting != null) {
         value.walletSetting!.forEach((element) {
           if (element.key == PRESENT_TOPUP_AMOUNT) {
-            appStore.setWalletPresetTopUpAmount(element.value ?? PRESENT_TOP_UP_AMOUNT_CONST);
+            appStore.setWalletPresetTopUpAmount(
+                element.value ?? PRESENT_TOP_UP_AMOUNT_CONST);
           }
           if (element.key == MIN_AMOUNT_TO_ADD) {
-            if (element.value != null) appStore.setMinAmountToAdd(int.parse(element.value!));
+            if (element.value != null)
+              appStore.setMinAmountToAdd(int.parse(element.value!));
           }
           if (element.key == MAX_AMOUNT_TO_ADD) {
-            if (element.value != null) appStore.setMaxAmountToAdd(int.parse(element.value!));
+            if (element.value != null)
+              appStore.setMaxAmountToAdd(int.parse(element.value!));
           }
         });
       }
       if (value.rideSetting != null) {
         value.rideSetting!.forEach((element) {
           if (element.key == PRESENT_TIP_AMOUNT) {
-            appStore.setWalletTipAmount(element.value ?? PRESENT_TOP_UP_AMOUNT_CONST);
+            appStore.setWalletTipAmount(
+                element.value ?? PRESENT_TOP_UP_AMOUNT_CONST);
           }
           if (element.key == RIDE_FOR_OTHER) {
             appStore.setIsRiderForAnother(element.value ?? "0");
@@ -104,16 +110,21 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         });
       }
       if (value.currencySetting != null) {
-        appStore.setCurrencyCode(value.currencySetting!.symbol ?? currencySymbol);
-        appStore.setCurrencyName(value.currencySetting!.code ?? currencyNameConst);
+        appStore
+            .setCurrencyCode(value.currencySetting!.symbol ?? currencySymbol);
+        appStore
+            .setCurrencyName(value.currencySetting!.code ?? currencyNameConst);
         appStore.setCurrencyPosition(value.currencySetting!.position ?? LEFT);
       }
       if (value.settingModel != null) {
         appStore.settingModel = value.settingModel!;
       }
-      if (value.privacyPolicyModel!.value != null) appStore.privacyPolicy = value.privacyPolicyModel!.value!;
-      if (value.termsCondition!.value != null) appStore.termsCondition = value.termsCondition!.value!;
-      if (value.settingModel!.helpSupportUrl != null) appStore.mHelpAndSupport = value.settingModel!.helpSupportUrl!;
+      if (value.privacyPolicyModel!.value != null)
+        appStore.privacyPolicy = value.privacyPolicyModel!.value!;
+      if (value.termsCondition!.value != null)
+        appStore.termsCondition = value.termsCondition!.value!;
+      if (value.settingModel!.helpSupportUrl != null)
+        appStore.mHelpAndSupport = value.settingModel!.helpSupportUrl!;
     }).catchError((error) {
       log('${error.toString()}');
     });
@@ -122,16 +133,23 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> getCurrentUserLocation() async {
     if (permissionData != LocationPermission.denied) {
-      final geoPosition = await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 30), desiredAccuracy: LocationAccuracy.high).catchError((error) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => LocationPermissionScreen()));
+      final geoPosition = await Geolocator.getCurrentPosition(
+              timeLimit: Duration(seconds: 30),
+              desiredAccuracy: LocationAccuracy.high)
+          .catchError((error) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => LocationPermissionScreen()));
       });
       sourceLocation = LatLng(geoPosition.latitude, geoPosition.longitude);
-      List<Placemark>? placemarks = await placemarkFromCoordinates(geoPosition.latitude, geoPosition.longitude);
-      sharedPref.setString(COUNTRY, placemarks[0].isoCountryCode.validate(value: defaultCountry));
+      List<Placemark>? placemarks = await placemarkFromCoordinates(
+          geoPosition.latitude, geoPosition.longitude);
+      sharedPref.setString(COUNTRY,
+          placemarks[0].isoCountryCode.validate(value: defaultCountry));
 
       Placemark place = placemarks[0];
       if (place != null) {
-        sourceLocationTitle = "${place.name != null ? place.name : place.subThoroughfare}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.postalCode}, ${place.country}";
+        sourceLocationTitle =
+            "${place.name != null ? place.name : place.subThoroughfare}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.postalCode}, ${place.country}";
         polylineSource = LatLng(geoPosition.latitude, geoPosition.longitude);
       }
       markers.add(
@@ -149,8 +167,11 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           markers.add(
             Marker(
               markerId: MarkerId('Driver${element.id}'),
-              position: LatLng(double.parse(element.latitude!.toString()), double.parse(element.longitude!.toString())),
-              infoWindow: InfoWindow(title: '${element.firstName} ${element.lastName}', snippet: ''),
+              position: LatLng(double.parse(element.latitude!.toString()),
+                  double.parse(element.longitude!.toString())),
+              infoWindow: InfoWindow(
+                  title: '${element.firstName} ${element.lastName}',
+                  snippet: ''),
               icon: driverIcon,
             ),
           );
@@ -159,7 +180,8 @@ class DashBoardScreenState extends State<DashBoardScreen> {
       });
       setState(() {});
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => LocationPermissionScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => LocationPermissionScreen()));
     }
   }
 
@@ -172,8 +194,12 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             getContext,
             isNewTask: true,
             NewEstimateRideListWidget(
-              sourceLatLog: LatLng(double.parse(servicesListData!.startLatitude!), double.parse(servicesListData!.startLongitude!)),
-              destinationLatLog: LatLng(double.parse(servicesListData!.endLatitude!), double.parse(servicesListData!.endLongitude!)),
+              sourceLatLog: LatLng(
+                  double.parse(servicesListData!.startLatitude!),
+                  double.parse(servicesListData!.startLongitude!)),
+              destinationLatLog: LatLng(
+                  double.parse(servicesListData!.endLatitude!),
+                  double.parse(servicesListData!.endLongitude!)),
               sourceTitle: servicesListData!.startAddress!,
               destinationTitle: servicesListData!.endAddress!,
               isCurrentRequest: true,
@@ -182,11 +208,21 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             ),
             pageRouteAnimation: PageRouteAnimation.SlideBottomTop,
           );
-        } else if (servicesListData!.status == COMPLETED && servicesListData!.isRiderRated == 0) {
-          launchScreen(context, ReviewScreen(rideRequest: servicesListData!, driverData: value.driver), pageRouteAnimation: PageRouteAnimation.SlideBottomTop, isNewTask: true);
+        } else if (servicesListData!.status == COMPLETED &&
+            servicesListData!.isRiderRated == 0) {
+          launchScreen(
+              context,
+              ReviewScreen(
+                  rideRequest: servicesListData!, driverData: value.driver),
+              pageRouteAnimation: PageRouteAnimation.SlideBottomTop,
+              isNewTask: true);
         }
-      } else if (value.payment != null && value.payment!.paymentStatus != COMPLETED) {
-        launchScreen(context, RidePaymentDetailScreen(rideId: value.payment!.rideRequestId), pageRouteAnimation: PageRouteAnimation.SlideBottomTop, isNewTask: true);
+      } else if (value.payment != null &&
+          value.payment!.paymentStatus != COMPLETED) {
+        launchScreen(context,
+            RidePaymentDetailScreen(rideId: value.payment!.rideRequestId),
+            pageRouteAnimation: PageRouteAnimation.SlideBottomTop,
+            isNewTask: true);
       }
     }).catchError((error) {
       log(error.toString());
@@ -194,9 +230,11 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   Future<void> locationPermission() async {
-    serviceStatusStream = Geolocator.getServiceStatusStream().listen((ServiceStatus status) {
+    serviceStatusStream =
+        Geolocator.getServiceStatusStream().listen((ServiceStatus status) {
       if (status == ServiceStatus.disabled) {
-        launchScreen(navigatorKey.currentState!.overlay!.context, LocationPermissionScreen());
+        launchScreen(navigatorKey.currentState!.overlay!.context,
+            LocationPermissionScreen());
       } else if (status == ServiceStatus.enabled) {
         getCurrentUserLocation();
 
@@ -237,7 +275,8 @@ class DashBoardScreenState extends State<DashBoardScreen> {
       drawer: DrawerComponent(),
       body: Stack(
         children: [
-          if (sharedPref.getDouble(LATITUDE) != null && sharedPref.getDouble(LONGITUDE) != null)
+          if (sharedPref.getDouble(LATITUDE) != null &&
+              sharedPref.getDouble(LONGITUDE) != null)
             GoogleMap(
               mapToolbarEnabled: false,
               zoomControlsEnabled: false,
@@ -245,7 +284,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               markers: markers.map((e) => e).toSet(),
               polylines: _polyLines,
               initialCameraPosition: CameraPosition(
-                target: sourceLocation ?? LatLng(sharedPref.getDouble(LATITUDE)!, sharedPref.getDouble(LONGITUDE)!),
+                target: sourceLocation ??
+                    LatLng(sharedPref.getDouble(LATITUDE)!,
+                        sharedPref.getDouble(LONGITUDE)!),
                 zoom: cameraZoom,
                 tilt: cameraTilt,
                 bearing: cameraBearing,
@@ -259,10 +300,13 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           ),
           SlidingUpPanel(
             padding: EdgeInsets.all(16),
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(defaultRadius), topRight: Radius.circular(defaultRadius)),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(defaultRadius),
+                topRight: Radius.circular(defaultRadius)),
             backdropTapClosesPanel: true,
             minHeight: 140,
             maxHeight: 140,
+            color: Color(0xFF0e2345),
             panel: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -272,10 +316,13 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                     margin: EdgeInsets.only(bottom: 12),
                     height: 5,
                     width: 70,
-                    decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(defaultRadius)),
+                    decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(defaultRadius)),
                   ),
                 ),
-                Text(language.whatWouldYouLikeToGo.capitalizeFirstLetter(), style: primaryTextStyle()),
+                Text(language.whatWouldYouLikeToGo.capitalizeFirstLetter(),
+                    style: primaryTextStyle(color: Colors.white)),
                 SizedBox(height: 12),
                 AppTextField(
                   autoFocus: false,
@@ -285,7 +332,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                       showModalBottomSheet(
                         isScrollControlled: true,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(defaultRadius), topRight: Radius.circular(defaultRadius)),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(defaultRadius),
+                              topRight: Radius.circular(defaultRadius)),
                         ),
                         context: context,
                         builder: (_) {
@@ -297,16 +346,30 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   textFieldType: TextFieldType.EMAIL,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Feather.search),
+                    prefixIcon: Icon(
+                      Feather.search,
+                      color: Colors.white,
+                    ),
                     filled: false,
                     isDense: true,
-                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-                    disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: Colors.black)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: Colors.red)),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        borderSide: BorderSide(color: Colors.white)),
+                    disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        borderSide: BorderSide(color: Colors.white)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        borderSide: BorderSide(color: Colors.white)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        borderSide: BorderSide(color: Colors.white)),
+                    errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        borderSide: BorderSide(color: Colors.red)),
                     alignLabelWithHint: true,
                     hintText: language.enterYourDestination,
+                    hintStyle: TextStyle(color: Colors.white),
                   ),
                 ),
                 SizedBox(height: 12),
@@ -333,29 +396,35 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           child: Container(
             padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFF0e2345),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.2), spreadRadius: 1),
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2), spreadRadius: 1),
               ],
               borderRadius: BorderRadius.circular(defaultRadius),
             ),
-            child: Icon(Icons.drag_handle),
+            child: Icon(Icons.drag_handle, color: Colors.white),
           ),
         ),
         inkWellWidget(
           onTap: () {
-            launchScreen(context, NotificationScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
+            launchScreen(context, NotificationScreen(),
+                pageRouteAnimation: PageRouteAnimation.Slide);
           },
           child: Container(
             padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFF0e2345),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.2), spreadRadius: 1),
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2), spreadRadius: 1),
               ],
               borderRadius: BorderRadius.circular(defaultRadius),
             ),
-            child: Icon(Ionicons.notifications_outline),
+            child: Icon(
+              Ionicons.notifications_outline,
+              color: Colors.white,
+            ),
           ),
         ),
       ],

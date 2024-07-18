@@ -13,7 +13,8 @@ class AppTheme {
     primaryColor: primaryColor,
     scaffoldBackgroundColor: Colors.white,
     fontFamily: GoogleFonts.play().fontFamily,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
+    bottomNavigationBarTheme:
+        BottomNavigationBarThemeData(backgroundColor: Colors.white),
     iconTheme: IconThemeData(color: scaffoldSecondaryDark),
     textTheme: TextTheme(titleLarge: TextStyle()),
     dialogBackgroundColor: Colors.white,
@@ -47,7 +48,8 @@ class AppTheme {
     primaryColor: primaryColor,
     scaffoldBackgroundColor: scaffoldColorDark,
     fontFamily: GoogleFonts.nunito().fontFamily,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: scaffoldSecondaryDark),
+    bottomNavigationBarTheme:
+        BottomNavigationBarThemeData(backgroundColor: scaffoldSecondaryDark),
     iconTheme: IconThemeData(color: Colors.white),
     textTheme: TextTheme(titleLarge: TextStyle(color: textSecondaryColor)),
     dialogBackgroundColor: scaffoldSecondaryDark,

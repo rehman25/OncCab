@@ -26,102 +26,126 @@ class _DrawerComponentState extends State<DrawerComponent> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 35),
-                Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: Observer(builder: (context) {
-                    return Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: radius(),
-                          child: commonCachedNetworkImage(appStore.userProfile.validate().validate(), height: 70, width: 70, fit: BoxFit.cover),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(sharedPref.getString(FIRST_NAME).validate().capitalizeFirstLetter() + " " + sharedPref.getString(LAST_NAME).validate().capitalizeFirstLetter(),
-                                  style: boldTextStyle()),
-                              SizedBox(height: 4),
-                              Text(appStore.userEmail, style: secondaryTextStyle()),
-                            ],
+      child: Container(
+        color: Color(0xFF0e2345),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 35),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Observer(builder: (context) {
+                      return Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: radius(),
+                            child: commonCachedNetworkImage(
+                                appStore.userProfile.validate().validate(),
+                                height: 70,
+                                width: 70,
+                                fit: BoxFit.cover),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-                Divider(thickness: 1, height: 40),
-                DrawerWidget(
-                  title: language.profile,
-                  iconData: ic_my_profile,
-                  onTap: () {
-                    Navigator.pop(context);
-                    launchScreen(context, EditProfileScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                  },
-                ),
-                DrawerWidget(
-                    title: language.rides,
-                    iconData: ic_my_rides,
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    sharedPref
+                                            .getString(FIRST_NAME)
+                                            .validate()
+                                            .capitalizeFirstLetter() +
+                                        " " +
+                                        sharedPref
+                                            .getString(LAST_NAME)
+                                            .validate()
+                                            .capitalizeFirstLetter(),
+                                    style: boldTextStyle(color: Colors.white)),
+                                SizedBox(height: 4),
+                                Text(appStore.userEmail,
+                                    style: secondaryTextStyle(
+                                        color: Colors.white)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                  Divider(thickness: 1, height: 40),
+                  DrawerWidget(
+                    title: language.profile,
+                    iconData: ic_my_profile,
                     onTap: () {
                       Navigator.pop(context);
-                      launchScreen(context, RideListScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                    }),
-                DrawerWidget(
-                    title: language.wallet,
-                    iconData: ic_my_wallet,
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchScreen(context, WalletScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                    }),
-                DrawerWidget(
-                    title: language.bankInfo,
-                    iconData: ic_update_bank_info,
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchScreen(context, BankInfoScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                    }),
-                DrawerWidget(
-                    title: language.emergencyContacts,
-                    iconData: ic_emergency_contact,
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchScreen(context, EmergencyContactScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                    }),
-                DrawerWidget(
-                    title: language.settings,
-                    iconData: ic_setting,
-                    onTap: () {
-                      Navigator.pop(context);
-                      launchScreen(context, SettingScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
-                    }),
-                DrawerWidget(
-                    title: language.logOut,
-                    iconData: ic_logout,
-                    onTap: () async {
-                      await showConfirmDialogCustom(context,
-                          primaryColor: primaryColor,
-                          dialogType: DialogType.CONFIRMATION,
-                          title: language.areYouSureYouWantToLogoutThisApp,
-                          positiveText: language.yes,
-                          negativeText: language.no, onAccept: (v) async {
-                        await appStore.setLoggedIn(true);
-                        await Future.delayed(Duration(milliseconds: 500));
-                        await logout();
-                      });
-                    }),
-              ],
+                      launchScreen(context, EditProfileScreen(),
+                          pageRouteAnimation: PageRouteAnimation.Slide);
+                    },
+                  ),
+                  DrawerWidget(
+                      title: language.rides,
+                      iconData: ic_my_rides,
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchScreen(context, RideListScreen(),
+                            pageRouteAnimation: PageRouteAnimation.Slide);
+                      }),
+                  DrawerWidget(
+                      title: language.wallet,
+                      iconData: ic_my_wallet,
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchScreen(context, WalletScreen(),
+                            pageRouteAnimation: PageRouteAnimation.Slide);
+                      }),
+                  DrawerWidget(
+                      title: language.bankInfo,
+                      iconData: ic_update_bank_info,
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchScreen(context, BankInfoScreen(),
+                            pageRouteAnimation: PageRouteAnimation.Slide);
+                      }),
+                  DrawerWidget(
+                      title: language.emergencyContacts,
+                      iconData: ic_emergency_contact,
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchScreen(context, EmergencyContactScreen(),
+                            pageRouteAnimation: PageRouteAnimation.Slide);
+                      }),
+                  DrawerWidget(
+                      title: language.settings,
+                      iconData: ic_setting,
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchScreen(context, SettingScreen(),
+                            pageRouteAnimation: PageRouteAnimation.Slide);
+                      }),
+                  DrawerWidget(
+                      title: language.logOut,
+                      iconData: ic_logout,
+                      onTap: () async {
+                        await showConfirmDialogCustom(context,
+                            primaryColor: primaryColor,
+                            dialogType: DialogType.CONFIRMATION,
+                            title: language.areYouSureYouWantToLogoutThisApp,
+                            positiveText: language.yes,
+                            negativeText: language.no, onAccept: (v) async {
+                          await appStore.setLoggedIn(true);
+                          await Future.delayed(Duration(milliseconds: 500));
+                          await logout();
+                        });
+                      }),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
