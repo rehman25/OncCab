@@ -433,28 +433,31 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
     client.autoReconnect = true;
 
     try {
-      await client.connect();
+      debugPrint('rehman1');
+      await client.connect('oncab_rider', '0nC@b_R!d3r');
     } on NoConnectionException catch (e) {
       debugPrint(e.toString());
+      debugPrint('rehmanEstErr');
       client.connect();
     }
+    debugPrint('rehmanEstErr3');
 
-    if (client.connectionStatus!.state == MqttConnectionState.connected) {
-      client.onSubscribed = onSubscribed;
+    // if (client.connectionStatus!.state == MqttConnectionState.connected) {
+    //   client.onSubscribed = onSubscribed;
 
-      debugPrint('connected');
-    } else if (client.connectionStatus!.state ==
-        MqttConnectionState.disconnected) {
-      client.connect();
-      debugPrint('connected');
-    } else if (client.connectionStatus!.state ==
-        MqttConnectionState.disconnecting) {
-      client.connect();
-      debugPrint('connected');
-    } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
-      client.connect();
-      debugPrint('connected');
-    }
+    //   debugPrint('connected');
+    // } else if (client.connectionStatus!.state ==
+    //     MqttConnectionState.disconnected) {
+    //   client.connect();
+    //   debugPrint('connected');
+    // } else if (client.connectionStatus!.state ==
+    //     MqttConnectionState.disconnecting) {
+    //   client.connect();
+    //   debugPrint('connected');
+    // } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
+    //   client.connect();
+    //   debugPrint('connected');
+    // }
 
     void onconnected() {
       debugPrint('connected');

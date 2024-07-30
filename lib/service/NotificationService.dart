@@ -25,7 +25,7 @@ class NotificationService {
       'large_icon': image.validate().isNotEmpty ? image.validate() : '',
       //   'small_icon': mAppIconUrl,
       'app_id': mOneSignalAppIdDriver,
-      //    'android_channel_id': mOneSignalChannelID,
+        //  'android_channel_id': mOneSignalChannelID,
       'include_player_ids': [receiverPlayerId],
       'android_group': mAppName,
     };

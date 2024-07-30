@@ -1,4 +1,4 @@
-package com.mighty.taxirider
+package com.alitacode.oncab
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine

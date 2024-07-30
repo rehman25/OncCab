@@ -77,7 +77,9 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     };
     await savePayment(req).then((value) {
       appStore.setLoading(false);
-      launchScreen(context, DashBoardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+      launchScreen(context, DashBoardScreen(),
+          isNewTask: true,
+          pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
     }).catchError((error) {
       isShow = true;
       setState(() {});
@@ -94,7 +96,9 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
       "is_change_payment_type": 1,
     };
     log(req);
-    await rideRequestUpdate(request: req, rideId: currentData!.payment!.rideRequestId).then((value) async {
+    await rideRequestUpdate(
+            request: req, rideId: currentData!.payment!.rideRequestId)
+        .then((value) async {
       appStore.setLoading(false);
       init();
     }).catchError((error) {
@@ -105,7 +109,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
 
   Future<void> orderDetailApi() async {
     appStore.setLoading(true);
-    await rideDetail(orderId: currentData!.payment!.rideRequestId).then((value) {
+    await rideDetail(orderId: currentData!.payment!.rideRequestId)
+        .then((value) {
       appStore.setLoading(false);
       riderModel = value.data;
       if (value.payment != null) {
@@ -135,10 +140,12 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
       client.onSubscribed = onSubscribed;
 
       debugPrint('connected');
-    } else if (client.connectionStatus!.state == MqttConnectionState.disconnected) {
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnected) {
       client.connect();
       debugPrint('connected');
-    } else if (client.connectionStatus!.state == MqttConnectionState.disconnecting) {
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnecting) {
       client.connect();
       debugPrint('connected');
     } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
@@ -150,12 +157,17 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
       debugPrint('connected');
     }
 
-    client.subscribe(mMQTT_UNIQUE_TOPIC_NAME + 'ride_request_status_' + sharedPref.getInt(USER_ID).toString(), MqttQos.atLeastOnce);
+    client.subscribe(
+        mMQTT_UNIQUE_TOPIC_NAME +
+            'ride_request_status_' +
+            sharedPref.getInt(USER_ID).toString(),
+        MqttQos.atLeastOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
       final MqttPublishMessage recMess = c![0].payload as MqttPublishMessage;
 
-      final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      final pt =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
 
       if (jsonDecode(pt)['success_type'] == 'payment_status_message') {
         setState(() {
@@ -194,7 +206,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(language.paymentDetail, style: boldTextStyle(color: appTextPrimaryColorWhite)),
+        title: Text(language.paymentDetail,
+            style: boldTextStyle(color: appTextPrimaryColorWhite)),
       ),
       body: Stack(
         children: [
@@ -210,7 +223,9 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                       SizedBox(height: 12),
                       priceDetailWidget(),
                       SizedBox(height: 12),
-                      if (currentData!.payment != null && currentData!.payment!.paymentStatus != COMPLETED && isShow)
+                      if (currentData!.payment != null &&
+                          currentData!.payment!.paymentStatus != COMPLETED &&
+                          isShow)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -224,7 +239,11 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                                       isCashPayment = true;
                                       setState(() {});
                                     },
-                                    child: scheduleOptionWidget(context, isCashPayment, 'images/ic_cash.png', language.cash),
+                                    child: scheduleOptionWidget(
+                                        context,
+                                        isCashPayment,
+                                        'images/ic_cash.png',
+                                        language.cash),
                                   ),
                                 ),
                                 SizedBox(width: 16),
@@ -234,7 +253,11 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                                       isCashPayment = false;
                                       setState(() {});
                                     },
-                                    child: scheduleOptionWidget(context, !isCashPayment, 'images/ic_credit_card.png', language.wallet),
+                                    child: scheduleOptionWidget(
+                                        context,
+                                        !isCashPayment,
+                                        'images/ic_credit_card.png',
+                                        language.wallet),
                                   ),
                                 ),
                               ],
@@ -259,11 +282,19 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                           text: getButtonText(),
                           width: MediaQuery.of(context).size.width,
                           onTap: () {
-                            if (currentData!.payment!.paymentStatus == COMPLETED) {
-                              launchScreen(context, DashBoardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
-                            } else if (currentData!.payment!.paymentStatus != COMPLETED && currentData!.payment!.paymentType == 'cash') {
+                            if (currentData!.payment!.paymentStatus ==
+                                COMPLETED) {
+                              launchScreen(context, DashBoardScreen(),
+                                  isNewTask: true,
+                                  pageRouteAnimation:
+                                      PageRouteAnimation.SlideBottomTop);
+                            } else if (currentData!.payment!.paymentStatus !=
+                                    COMPLETED &&
+                                currentData!.payment!.paymentType == 'cash') {
                               toast(language.waitingForDriverConformation);
-                            } else if (currentData!.payment!.paymentStatus != COMPLETED && currentData!.payment!.paymentType == 'wallet') {
+                            } else if (currentData!.payment!.paymentStatus !=
+                                    COMPLETED &&
+                                currentData!.payment!.paymentType == 'wallet') {
                               savePaymentApi();
                             }
                           },
@@ -273,7 +304,10 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                           text: language.continueNewRide,
                           width: MediaQuery.of(context).size.width,
                           onTap: () {
-                            launchScreen(context, DashBoardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                            launchScreen(context, DashBoardScreen(),
+                                isNewTask: true,
+                                pageRouteAnimation:
+                                    PageRouteAnimation.SlideBottomTop);
                           },
                         )
                     ],
@@ -295,10 +329,15 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(defaultRadius),
                         boxShadow: [
-                          BoxShadow(color: Colors.grey.withOpacity(0.4), blurRadius: 10, spreadRadius: 0, offset: Offset(0.0, 0.0)),
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.4),
+                              blurRadius: 10,
+                              spreadRadius: 0,
+                              offset: Offset(0.0, 0.0)),
                         ],
                       ),
-                      child: Lottie.asset(paymentSuccessful, width: 450, height: 450, fit: BoxFit.contain)))),
+                      child: Lottie.asset(paymentSuccessful,
+                          width: 450, height: 450, fit: BoxFit.contain)))),
         ],
       ),
     );
@@ -307,9 +346,11 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
   String? getButtonText() {
     if (currentData!.payment!.paymentStatus == COMPLETED) {
       return language.continueNewRide;
-    } else if (currentData!.payment!.paymentStatus != COMPLETED && currentData!.payment!.paymentType == 'cash') {
+    } else if (currentData!.payment!.paymentStatus != COMPLETED &&
+        currentData!.payment!.paymentType == 'cash') {
       return language.waitingForDriverConformation;
-    } else if (currentData!.payment!.paymentStatus != COMPLETED && currentData!.payment!.paymentType == 'wallet') {
+    } else if (currentData!.payment!.paymentStatus != COMPLETED &&
+        currentData!.payment!.paymentType == 'wallet') {
       return language.payToPayment;
     }
     return '';
@@ -319,7 +360,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
+        border:
+            Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
         borderRadius: radius(),
       ),
       padding: EdgeInsets.all(16),
@@ -331,11 +373,14 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
             children: [
               Row(
                 children: [
-                  Icon(Ionicons.calendar, color: textSecondaryColorGlobal, size: 16),
+                  Icon(Ionicons.calendar,
+                      color: textSecondaryColorGlobal, size: 16),
                   SizedBox(width: 4),
                   Padding(
                     padding: EdgeInsets.only(top: 2),
-                    child: Text('${printDate(riderModel!.createdAt.validate())}', style: primaryTextStyle(size: 14)),
+                    child: Text(
+                        '${printDate(riderModel!.createdAt.validate())}',
+                        style: primaryTextStyle(size: 14)),
                   ),
                 ],
               ),
@@ -349,7 +394,9 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
             ],
           ),
           SizedBox(height: 12),
-          Text('${language.lblDistance} ${riderModel!.distance!.toStringAsFixed(2)} ${riderModel!.distanceUnit.toString()}', style: boldTextStyle(size: 14)),
+          Text(
+              '${language.lblDistance} ${riderModel!.distance!.toStringAsFixed(2)} ${riderModel!.distanceUnit.toString()}',
+              style: boldTextStyle(size: 14)),
           SizedBox(height: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,9 +410,15 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (riderModel!.startTime != null) Text(riderModel!.startTime != null ? printDate(riderModel!.startTime!) : '', style: secondaryTextStyle(size: 12)),
+                        if (riderModel!.startTime != null)
+                          Text(
+                              riderModel!.startTime != null
+                                  ? printDate(riderModel!.startTime!)
+                                  : '',
+                              style: secondaryTextStyle(size: 12)),
                         if (riderModel!.startTime != null) SizedBox(height: 4),
-                        Text(riderModel!.startAddress.validate(), style: primaryTextStyle(size: 14)),
+                        Text(riderModel!.startAddress.validate(),
+                            style: primaryTextStyle(size: 14)),
                       ],
                     ),
                   ),
@@ -394,9 +447,15 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (riderModel!.endTime != null) Text(riderModel!.endTime != null ? printDate(riderModel!.endTime!) : '', style: secondaryTextStyle(size: 12)),
+                        if (riderModel!.endTime != null)
+                          Text(
+                              riderModel!.endTime != null
+                                  ? printDate(riderModel!.endTime!)
+                                  : '',
+                              style: secondaryTextStyle(size: 12)),
                         if (riderModel!.endTime != null) SizedBox(height: 4),
-                        Text(riderModel!.endAddress.validate(), style: primaryTextStyle(size: 14)),
+                        Text(riderModel!.endAddress.validate(),
+                            style: primaryTextStyle(size: 14)),
                       ],
                     ),
                   ),
@@ -407,7 +466,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
           SizedBox(height: 12),
           inkWellWidget(
             onTap: () {
-              launchScreen(context, RideHistoryScreen(rideHistory: rideHistory), pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+              launchScreen(context, RideHistoryScreen(rideHistory: rideHistory),
+                  pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -426,7 +486,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
+        border:
+            Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
         borderRadius: radius(),
       ),
       padding: EdgeInsets.all(16),
@@ -439,7 +500,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(language.via, style: primaryTextStyle()),
-              Text(paymentStatus(riderModel!.paymentType.validate()), style: boldTextStyle()),
+              Text(paymentStatus(riderModel!.paymentType.validate()),
+                  style: boldTextStyle()),
             ],
           ),
           SizedBox(height: 12),
@@ -447,7 +509,10 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(language.status, style: primaryTextStyle()),
-              Text(paymentStatus(riderModel!.paymentStatus.validate()), style: boldTextStyle(color: paymentStatusColor(riderModel!.paymentStatus.validate()))),
+              Text(paymentStatus(riderModel!.paymentStatus.validate()),
+                  style: boldTextStyle(
+                      color: paymentStatusColor(
+                          riderModel!.paymentStatus.validate()))),
             ],
           ),
         ],
@@ -459,7 +524,8 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
+        border:
+            Border.all(color: dividerColor.withOpacity(0.5).withOpacity(0.5)),
         borderRadius: radius(),
       ),
       padding: EdgeInsets.all(16),
@@ -469,16 +535,25 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
           Text(language.priceDetail, style: boldTextStyle(size: 16)),
           SizedBox(height: 12),
           riderModel!.subtotal! <= riderModel!.minimumFare!
-              ? totalCount(title: language.minimumFare, amount: riderModel!.minimumFare)
+              ? totalCount(
+                  title: language.minimumFare, amount: riderModel!.minimumFare)
               : Column(
                   children: [
-                    totalCount(title: language.basePrice, amount: riderModel!.baseFare),
+                    totalCount(
+                        title: language.basePrice,
+                        amount: riderModel!.baseFare),
                     SizedBox(height: 8),
-                    totalCount(title: language.distancePrice, amount: riderModel!.perDistanceCharge),
+                    totalCount(
+                        title: language.distancePrice,
+                        amount: riderModel!.perDistanceCharge),
                     SizedBox(height: 8),
-                    totalCount(title:language.minutePrice, amount: riderModel!.perMinuteDriveCharge),
+                    totalCount(
+                        title: language.minutePrice,
+                        amount: riderModel!.perMinuteDriveCharge),
                     SizedBox(height: 8),
-                    totalCount(title: language.waitingTimePrice, amount: riderModel!.perMinuteWaitingCharge),
+                    totalCount(
+                        title: language.waitingTimePrice,
+                        amount: riderModel!.perMinuteWaitingCharge),
                   ],
                 ),
           SizedBox(height: 8),
@@ -488,13 +563,17 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
               children: [
                 Text(language.couponDiscount, style: secondaryTextStyle()),
                 Text(
-                  "- " + printAmount(riderModel!.couponDiscount!.toStringAsFixed(digitAfterDecimal)),
+                  "- " +
+                      printAmount(riderModel!.couponDiscount!
+                          .toStringAsFixed(digitAfterDecimal)),
                   style: boldTextStyle(color: Colors.green, size: 14),
                 ),
               ],
             ),
-          if (riderModel!.couponData != null && riderModel!.couponDiscount != 0) SizedBox(height: 8),
-          if (riderModel!.tips != null) totalCount(title: language.tip, amount: riderModel!.tips),
+          if (riderModel!.couponData != null && riderModel!.couponDiscount != 0)
+            SizedBox(height: 8),
+          if (riderModel!.tips != null)
+            totalCount(title: language.tip, amount: riderModel!.tips),
           if (riderModel!.tips != null) SizedBox(height: 8),
           if (riderModel!.extraCharges!.isNotEmpty)
             Column(
@@ -512,8 +591,14 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
             ),
           Divider(height: 16, thickness: 1),
           riderModel!.tips != null
-              ? totalCount(title: language.total, amount: riderModel!.subtotal! + riderModel!.tips!, isTotal: true)
-              : totalCount(title: language.total, amount: riderModel!.subtotal, isTotal: true),
+              ? totalCount(
+                  title: language.total,
+                  amount: riderModel!.subtotal! + riderModel!.tips!,
+                  isTotal: true)
+              : totalCount(
+                  title: language.total,
+                  amount: riderModel!.subtotal,
+                  isTotal: true),
         ],
       ),
     );

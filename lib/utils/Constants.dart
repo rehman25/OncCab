@@ -20,7 +20,7 @@ var uuid = Uuid();
 final client = MqttServerClient.withPort(
     "1abab143724b461aac209f01472f8742.s1.eu.hivemq.cloud", uuid.v1(), 8883);
 const MQTT_UNIQUE_TOPIC_NAME =
-    '1abab143724b461aac209f01472f8742'; // Don't add underscore at the end of the url
+    'driver/receiveride'; // Don't add underscore at the end of the url
 //endregion
 
 //region OneSignal Keys
@@ -49,7 +49,7 @@ const PRESENT_TOP_UP_AMOUNT_CONST = '10|20|30';
 //endregion
 
 //region PDF configuration
-const PDF_NAME = 'OnCab Pro';
+const PDF_NAME = 'OnCab';
 const PDF_ADDRESS = 'Sarah Street 9, karachi';
 const PDF_CONTACT_NUMBER = '+92 8888888888';
 //endregion

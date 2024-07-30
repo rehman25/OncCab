@@ -50,16 +50,22 @@ class ReviewScreenState extends State<ReviewScreen> {
 
   void init() async {
     mqttForUser();
-    appStore.walletPresetTipAmount.isNotEmpty ? appStore.setWalletTipAmount(appStore.walletPresetTipAmount) : appStore.setWalletTipAmount('10|20|50');
+    appStore.walletPresetTipAmount.isNotEmpty
+        ? appStore.setWalletTipAmount(appStore.walletPresetTipAmount)
+        : appStore.setWalletTipAmount('10|20|50');
   }
 
   Future<void> getCurrentRequest() async {
     await getCurrentRideRequest().then((value) {
       servicesListData = value.onRideRequest;
       if (value.onRideRequest == null) {
-        launchScreen(context, DashBoardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+        launchScreen(context, DashBoardScreen(),
+            isNewTask: true,
+            pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
       } else {
-        launchScreen(context, RidePaymentDetailScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+        launchScreen(context, RidePaymentDetailScreen(),
+            isNewTask: true,
+            pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
       }
     }).catchError((error) {
       log(error.toString());
@@ -95,20 +101,24 @@ class ReviewScreenState extends State<ReviewScreen> {
     client.autoReconnect = true;
 
     try {
+      debugPrint("rehmanre1");
       await client.connect();
     } on NoConnectionException catch (e) {
       debugPrint(e.toString());
       client.connect();
     }
+    debugPrint("rehmanre1");
 
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       client.onSubscribed = onSubscribed;
-
+      debugPrint("rehmanre2");
       debugPrint('connected');
-    } else if (client.connectionStatus!.state == MqttConnectionState.disconnected) {
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnected) {
       client.connect();
       debugPrint('connected');
-    } else if (client.connectionStatus!.state == MqttConnectionState.disconnecting) {
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnecting) {
       client.connect();
       debugPrint('connected');
     } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
@@ -120,12 +130,17 @@ class ReviewScreenState extends State<ReviewScreen> {
       debugPrint('connected');
     }
 
-    client.subscribe(mMQTT_UNIQUE_TOPIC_NAME + 'ride_request_status_' + sharedPref.getInt(USER_ID).toString(), MqttQos.atLeastOnce);
+    client.subscribe(
+        mMQTT_UNIQUE_TOPIC_NAME +
+            'ride_request_status_' +
+            sharedPref.getInt(USER_ID).toString(),
+        MqttQos.atLeastOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
       final MqttPublishMessage recMess = c![0].payload as MqttPublishMessage;
 
-      final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      final pt =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
 
       if (jsonDecode(pt)['success_type'] == 'payment_status_message') {
         isTipShow = false;
@@ -154,14 +169,16 @@ class ReviewScreenState extends State<ReviewScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(language.howWasYourRide, style: boldTextStyle(color: appTextPrimaryColorWhite)),
+        title: Text(language.howWasYourRide,
+            style: boldTextStyle(color: appTextPrimaryColorWhite)),
       ),
       body: Stack(
         children: [
           Form(
             key: formKey,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 16),
+              padding:
+                  EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -170,16 +187,23 @@ class ReviewScreenState extends State<ReviewScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(35),
-                        child: commonCachedNetworkImage(widget.driverData!.profileImage.validate(), height: 60, width: 60, fit: BoxFit.cover),
+                        child: commonCachedNetworkImage(
+                            widget.driverData!.profileImage.validate(),
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover),
                       ),
                       SizedBox(width: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 8),
-                          Text('${widget.driverData!.firstName.validate()} ${widget.driverData!.lastName.validate()}', style: boldTextStyle()),
+                          Text(
+                              '${widget.driverData!.firstName.validate()} ${widget.driverData!.lastName.validate()}',
+                              style: boldTextStyle()),
                           SizedBox(height: 4),
-                          Text('${widget.driverData!.email.validate()}', style: primaryTextStyle()),
+                          Text('${widget.driverData!.email.validate()}',
+                              style: primaryTextStyle()),
                         ],
                       ),
                     ],
@@ -192,7 +216,8 @@ class ReviewScreenState extends State<ReviewScreen> {
                     wrapAlignment: WrapAlignment.spaceBetween,
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 8),
-                    itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
+                    itemBuilder: (context, _) =>
+                        Icon(Icons.star, color: Colors.amber),
                     onRatingUpdate: (rating) {
                       rattingData = rating;
                     },
@@ -202,7 +227,8 @@ class ReviewScreenState extends State<ReviewScreen> {
                   SizedBox(height: 16),
                   AppTextField(
                     controller: reviewController,
-                    decoration: inputDecoration(context, label: language.writeYourComments),
+                    decoration: inputDecoration(context,
+                        label: language.writeYourComments),
                     textFieldType: TextFieldType.NAME,
                     minLines: 2,
                     maxLines: 5,
@@ -211,7 +237,8 @@ class ReviewScreenState extends State<ReviewScreen> {
                   if (widget.rideRequest.paymentStatus != PAID && isTipShow)
                     Row(
                       children: [
-                        Text(language.wouldYouLikeToAddTip, style: boldTextStyle()),
+                        Text(language.wouldYouLikeToAddTip,
+                            style: boldTextStyle()),
                         SizedBox(width: 16),
                         if (tipController.text.isNotEmpty)
                           inkWellWidget(
@@ -220,34 +247,54 @@ class ReviewScreenState extends State<ReviewScreen> {
                               tipController.clear();
                               setState(() {});
                             },
-                            child: Icon(Icons.clear_all, size: 30, color: primaryColor),
+                            child: Icon(Icons.clear_all,
+                                size: 30, color: primaryColor),
                           )
                       ],
                     ),
-                  if (widget.rideRequest.paymentStatus != PAID && isTipShow) SizedBox(height: 10),
+                  if (widget.rideRequest.paymentStatus != PAID && isTipShow)
+                    SizedBox(height: 10),
                   if (widget.rideRequest.paymentStatus != PAID && isTipShow)
                     Wrap(
                       spacing: 10,
                       runSpacing: 16,
-                      children: appStore.walletPresetTipAmount.split('|').map((e) {
+                      children:
+                          appStore.walletPresetTipAmount.split('|').map((e) {
                         return inkWellWidget(
                           onTap: () {
-                            currentIndex = appStore.walletPresetTipAmount.split('|').indexOf(e);
+                            currentIndex = appStore.walletPresetTipAmount
+                                .split('|')
+                                .indexOf(e);
                             tipController.text = e;
-                            tipController.selection = TextSelection.fromPosition(TextPosition(offset: e.toString().length));
+                            tipController.selection =
+                                TextSelection.fromPosition(
+                                    TextPosition(offset: e.toString().length));
                             setState(() {});
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 10),
                             decoration: BoxDecoration(
-                                color: currentIndex == appStore.walletPresetTipAmount.split('|').indexOf(e) ? primaryColor : primaryColor.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(defaultRadius)),
-                            child: Text(appStore.currencyPosition == LEFT ? '${appStore.currencyCode} $e' : '$e ${appStore.currencyCode}', style: primaryTextStyle(color: Colors.white, size: 14)),
+                                color: currentIndex ==
+                                        appStore.walletPresetTipAmount
+                                            .split('|')
+                                            .indexOf(e)
+                                    ? primaryColor
+                                    : primaryColor.withOpacity(0.4),
+                                borderRadius:
+                                    BorderRadius.circular(defaultRadius)),
+                            child: Text(
+                                appStore.currencyPosition == LEFT
+                                    ? '${appStore.currencyCode} $e'
+                                    : '$e ${appStore.currencyCode}',
+                                style: primaryTextStyle(
+                                    color: Colors.white, size: 14)),
                           ),
                         );
                       }).toList(),
                     ),
-                  if (widget.rideRequest.paymentStatus != PAID && isTipShow) SizedBox(height: 16),
+                  if (widget.rideRequest.paymentStatus != PAID && isTipShow)
+                    SizedBox(height: 16),
                   if (widget.rideRequest.paymentStatus != PAID && isTipShow)
                     Column(
                       children: [
@@ -260,15 +307,22 @@ class ReviewScreenState extends State<ReviewScreen> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
-                            decoration: inputDecoration(context, label: language.addMoreTip),
+                            decoration: inputDecoration(context,
+                                label: language.addMoreTip),
                           ),
                         ),
                         if (!isMoreTip)
                           inkWellWidget(
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                                decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(defaultRadius)),
-                                child: Text(language.addMore, style: boldTextStyle(color: Colors.white, size: 14)),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius)),
+                                child: Text(language.addMore,
+                                    style: boldTextStyle(
+                                        color: Colors.white, size: 14)),
                               ),
                               onTap: () {
                                 isMoreTip = true;
