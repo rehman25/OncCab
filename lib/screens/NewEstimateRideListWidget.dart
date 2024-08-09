@@ -442,22 +442,22 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
     }
     debugPrint('rehmanEstErr3');
 
-    // if (client.connectionStatus!.state == MqttConnectionState.connected) {
-    //   client.onSubscribed = onSubscribed;
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      client.onSubscribed = onSubscribed;
 
-    //   debugPrint('connected');
-    // } else if (client.connectionStatus!.state ==
-    //     MqttConnectionState.disconnected) {
-    //   client.connect();
-    //   debugPrint('connected');
-    // } else if (client.connectionStatus!.state ==
-    //     MqttConnectionState.disconnecting) {
-    //   client.connect();
-    //   debugPrint('connected');
-    // } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
-    //   client.connect();
-    //   debugPrint('connected');
-    // }
+      debugPrint('connected');
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnected) {
+      client.connect();
+      debugPrint('connected');
+    } else if (client.connectionStatus!.state ==
+        MqttConnectionState.disconnecting) {
+      client.connect();
+      debugPrint('connected');
+    } else if (client.connectionStatus!.state == MqttConnectionState.faulted) {
+      client.connect();
+      debugPrint('connected');
+    }
 
     void onconnected() {
       debugPrint('connected');

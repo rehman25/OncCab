@@ -13,12 +13,15 @@ const GOOGLE_MAP_API_KEY = 'AIzaSyCc_o9yDDt17I4tZSJuel14WFB3YoKsH3M';
 
 //region DomainUrl
 const DOMAIN_URL =
-    'https://Oncab.alitacode.com'; // Don't add slash at the end of the url
+    'https://Admin.oncabglobal.com'; // Don't add slash at the end of the url
 //endregion
 var uuid = Uuid();
 //region MQTT port and unique name
 final client = MqttServerClient.withPort(
-    "1abab143724b461aac209f01472f8742.s1.eu.hivemq.cloud", uuid.v1(), 8883);
+    "1abab143724b461aac209f01472f8742.s1.eu.hivemq.cloud",
+    // "broker.mqtt.cool",
+    uuid.v1(),
+    8883);
 const MQTT_UNIQUE_TOPIC_NAME =
     'driver/receiveride'; // Don't add underscore at the end of the url
 //endregion
