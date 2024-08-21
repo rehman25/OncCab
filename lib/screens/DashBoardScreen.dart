@@ -278,9 +278,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           if (sharedPref.getDouble(LATITUDE) != null &&
               sharedPref.getDouble(LONGITUDE) != null)
             GoogleMap(
-              mapToolbarEnabled: false,
-              zoomControlsEnabled: false,
-              myLocationEnabled: false,
+              mapToolbarEnabled: true,
+              zoomControlsEnabled: true,
+              myLocationEnabled: true,
               markers: markers.map((e) => e).toSet(),
               polylines: _polyLines,
               initialCameraPosition: CameraPosition(
@@ -304,9 +304,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                 topLeft: Radius.circular(defaultRadius),
                 topRight: Radius.circular(defaultRadius)),
             backdropTapClosesPanel: true,
-            minHeight: 140,
+            minHeight: 150,
             maxHeight: 140,
-            color: Color(0xFF0e2345),
+            color: Color(0xFF000000),
             panel: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -322,7 +322,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                 ),
                 Text(language.whatWouldYouLikeToGo.capitalizeFirstLetter(),
-                    style: primaryTextStyle(color: Colors.white)),
+                    style: primaryTextStyle(color: Color(0xFFCAA928))),
                 SizedBox(height: 12),
                 AppTextField(
                   autoFocus: false,
@@ -348,28 +348,28 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Feather.search,
-                      color: Colors.white,
+                      color: Color(0xFFCAA928),
                     ),
                     filled: false,
                     isDense: true,
                     focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(defaultRadius),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: Color(0xFFCAA928))),
                     disabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(defaultRadius),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: Color(0xFFCAA928))),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(defaultRadius),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: Color(0xFFCAA928))),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(defaultRadius),
-                        borderSide: BorderSide(color: Colors.white)),
+                        borderSide: BorderSide(color: Color(0xFFCAA928))),
                     errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(defaultRadius),
                         borderSide: BorderSide(color: Colors.red)),
                     alignLabelWithHint: true,
                     hintText: language.enterYourDestination,
-                    hintStyle: TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: Color(0xFFCAA928)),
                   ),
                 ),
                 SizedBox(height: 12),
@@ -396,14 +396,14 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           child: Container(
             padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Color(0xFF0e2345),
+              color: Color(0xFF000000),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.2), spreadRadius: 1),
+                    color: Color(0xFFCAA928).withOpacity(0.2), spreadRadius: 1),
               ],
               borderRadius: BorderRadius.circular(defaultRadius),
             ),
-            child: Icon(Icons.drag_handle, color: Colors.white),
+            child: Icon(Icons.drag_handle, color: Color(0xFFCAA928)),
           ),
         ),
         inkWellWidget(
@@ -414,7 +414,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           child: Container(
             padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Color(0xFF0e2345),
+              color: Color(0xFF000000),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.2), spreadRadius: 1),
@@ -423,7 +423,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             ),
             child: Icon(
               Ionicons.notifications_outline,
-              color: Colors.white,
+              color: Color(0xFFCAA928),
             ),
           ),
         ),

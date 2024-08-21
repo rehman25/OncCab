@@ -11,8 +11,8 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: createMaterialColor(primaryColor),
     primaryColor: primaryColor,
-    scaffoldBackgroundColor: Colors.white,
-    fontFamily: GoogleFonts.play().fontFamily,
+    scaffoldBackgroundColor: Colors.black,
+    fontFamily: GoogleFonts.roboto().fontFamily,
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: Colors.white),
     iconTheme: IconThemeData(color: scaffoldSecondaryDark),
@@ -47,7 +47,7 @@ class AppTheme {
     primarySwatch: createMaterialColor(primaryColor),
     primaryColor: primaryColor,
     scaffoldBackgroundColor: scaffoldColorDark,
-    fontFamily: GoogleFonts.nunito().fontFamily,
+    fontFamily: GoogleFonts.roboto().fontFamily,
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: scaffoldSecondaryDark),
     iconTheme: IconThemeData(color: Colors.white),

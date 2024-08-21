@@ -42,11 +42,11 @@ class DefaultFirebaseOptions {
       measurementId: "G-Z960CVQRED");
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC9u05eUDSKOOINuktZkpX3LowpTS1ov-M',
-    appId: '1:230350784895:android:69dfee4b8ace4aef58324a',
-    messagingSenderId: '230350784895',
-    projectId: 'oncab-10cce',
-    storageBucket: 'oncab-10cce.appspot.com',
+    apiKey: 'AIzaSyDtXV_yiPfcXwvot33uCCQZ1KkNs1e7Drw',
+    appId: '1:575809834958:android:61bf3729456869c220a59f',
+    messagingSenderId: '575809834958',
+    projectId: 'oncabuser',
+    storageBucket: 'oncabuser.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

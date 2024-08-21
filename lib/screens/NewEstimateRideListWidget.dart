@@ -433,11 +433,10 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
     client.autoReconnect = true;
 
     try {
-      debugPrint('rehman1');
       await client.connect('oncab_rider', '0nC@b_R!d3r');
+      debugPrint('rehman1');
     } on NoConnectionException catch (e) {
       debugPrint(e.toString());
-      debugPrint('rehmanEstErr');
       client.connect();
     }
     debugPrint('rehmanEstErr3');
@@ -692,7 +691,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         leadingWidth: 40,
         leading: Visibility(
           visible: !isBooking,
@@ -741,7 +740,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
               ? bookRideWidget()
               : Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.black,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(defaultRadius),
                           topRight: Radius.circular(defaultRadius))),
@@ -771,7 +770,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
           child: Container(
             // height: isRideSelection == false && appStore.isRiderForAnother == "1" ? MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.height * 0.45,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(defaultRadius),
                     topRight: Radius.circular(defaultRadius))),
@@ -787,7 +786,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
           visible: !appStore.isLoading && serviceList.isEmpty,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(0xFFCAA928),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(defaultRadius),
                     topRight: Radius.circular(defaultRadius))),

@@ -51,7 +51,6 @@ class RiderWidgetState extends State<RiderWidget> {
     init();
   }
 
-
   void init() async {
     sourceLocation.text = widget.title;
     await getServices().then((value) {
@@ -60,7 +59,8 @@ class RiderWidgetState extends State<RiderWidget> {
     });
 
     sourceFocus.addListener(() {
-      sourceLocation.selection = TextSelection.collapsed(offset: sourceLocation.text.length);
+      sourceLocation.selection =
+          TextSelection.collapsed(offset: sourceLocation.text.length);
       if (sourceFocus.hasFocus) sourceLocation.clear();
     });
 
@@ -68,10 +68,12 @@ class RiderWidgetState extends State<RiderWidget> {
       if (desFocus.hasFocus) {
         if (mLocation.isNotEmpty) {
           sourceLocation.text = mLocation;
-          sourceLocation.selection = TextSelection.collapsed(offset: sourceLocation.text.length);
+          sourceLocation.selection =
+              TextSelection.collapsed(offset: sourceLocation.text.length);
         } else {
           sourceLocation.text = widget.title;
-          sourceLocation.selection = TextSelection.collapsed(offset: sourceLocation.text.length);
+          sourceLocation.selection =
+              TextSelection.collapsed(offset: sourceLocation.text.length);
         }
       }
     });
@@ -101,14 +103,18 @@ class RiderWidgetState extends State<RiderWidget> {
                       margin: EdgeInsets.only(bottom: 16),
                       height: 5,
                       width: 70,
-                      decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(defaultRadius)),
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(defaultRadius)),
                     ),
                   ),
                   SizedBox(height: 16),
                   Container(
                     padding: EdgeInsets.only(bottom: 16),
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(defaultRadius)),
+                    decoration: BoxDecoration(
+                        color: primaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(defaultRadius)),
                     child: Padding(
                       padding: EdgeInsets.all(8),
                       child: Row(
@@ -145,12 +151,23 @@ class RiderWidgetState extends State<RiderWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: 10),
-                                  if (isPickup == true) Text(language.lblWhereAreYou, style: secondaryTextStyle()),
+                                  if (isPickup == true)
+                                    Text(language.lblWhereAreYou,
+                                        style: secondaryTextStyle(
+                                            color: Color(0xFFCAA928))),
                                   TextFormField(
                                     controller: sourceLocation,
                                     focusNode: sourceFocus,
+                                    style: TextStyle(color: Color(0xFFCAA928)),
                                     decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(vertical: 8), isDense: true, hintStyle: primaryTextStyle(), labelStyle: primaryTextStyle(), hintText: language.currentLocation),
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 8),
+                                        isDense: true,
+                                        hintStyle: primaryTextStyle(
+                                            color: Color(0xFFCAA928)),
+                                        labelStyle: primaryTextStyle(
+                                            color: Color(0xFFCAA928)),
+                                        hintText: language.currentLocation),
                                     onTap: () {
                                       isPickup = false;
                                       setState(() {});
@@ -163,7 +180,8 @@ class RiderWidgetState extends State<RiderWidget> {
                                           listAddress.clear();
                                           setState(() {});
                                         } else {
-                                          searchAddressRequest(search: val).then((value) {
+                                          searchAddressRequest(search: val)
+                                              .then((value) {
                                             isDone = true;
                                             listAddress = value.predictions!;
                                             setState(() {});
@@ -178,13 +196,22 @@ class RiderWidgetState extends State<RiderWidget> {
                                     },
                                   ),
                                   SizedBox(height: 30),
-                                  if (isDrop == true) Text(language.lblDropOff, style: secondaryTextStyle()),
+                                  if (isDrop == true)
+                                    Text(language.lblDropOff,
+                                        style: secondaryTextStyle(
+                                            color: Color(0xFFCAA928))),
                                   TextFormField(
                                     controller: destinationLocation,
                                     focusNode: desFocus,
                                     autofocus: true,
+                                    style: TextStyle(color: Color(0xFFCAA928)),
                                     decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(vertical: 8), isDense: true, hintStyle: primaryTextStyle(), labelStyle: primaryTextStyle(), hintText: language.destinationLocation),
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 8),
+                                        isDense: true,
+                                        hintStyle: primaryTextStyle(),
+                                        labelStyle: primaryTextStyle(),
+                                        hintText: language.destinationLocation),
                                     onTap: () {
                                       isDrop = false;
                                       setState(() {});
@@ -196,7 +223,8 @@ class RiderWidgetState extends State<RiderWidget> {
                                           listAddress.clear();
                                           setState(() {});
                                         } else {
-                                          searchAddressRequest(search: val).then((value) {
+                                          searchAddressRequest(search: val)
+                                              .then((value) {
                                             listAddress = value.predictions!;
                                             setState(() {});
                                           }).catchError((error) {
@@ -228,32 +256,54 @@ class RiderWidgetState extends State<RiderWidget> {
                       Prediction mData = listAddress[index];
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: Icon(Icons.location_on_outlined, color: primaryColor),
+                        leading: Icon(Icons.location_on_outlined,
+                            color: primaryColor),
                         minLeadingWidth: 16,
-                        title: Text(mData.description ?? "", style: primaryTextStyle()),
+                        title: Text(mData.description ?? "",
+                            style: primaryTextStyle()),
                         onTap: () async {
-                          await searchAddressRequestPlaceId(placeId: mData.placeId).then((value) async {
+                          await searchAddressRequestPlaceId(
+                                  placeId: mData.placeId)
+                              .then((value) async {
                             var data = value.result!.geometry;
                             if (sourceFocus.hasFocus) {
                               isDone = true;
                               mLocation = mData.description!;
                               sourceLocation.text = mData.description!;
-                              polylineSource = LatLng(data!.location!.lat!, data.location!.lng!);
+                              polylineSource = LatLng(
+                                  data!.location!.lat!, data.location!.lng!);
 
-                              if (sourceLocation.text.isNotEmpty && destinationLocation.text.isNotEmpty) {
+                              if (sourceLocation.text.isNotEmpty &&
+                                  destinationLocation.text.isNotEmpty) {
                                 launchScreen(
-                                    context, NewEstimateRideListWidget(sourceLatLog: polylineSource, destinationLatLog: polylineDestination, sourceTitle: sourceLocation.text, destinationTitle: destinationLocation.text),
-                                    pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                                    context,
+                                    NewEstimateRideListWidget(
+                                        sourceLatLog: polylineSource,
+                                        destinationLatLog: polylineDestination,
+                                        sourceTitle: sourceLocation.text,
+                                        destinationTitle:
+                                            destinationLocation.text),
+                                    pageRouteAnimation:
+                                        PageRouteAnimation.SlideBottomTop);
                                 sourceLocation.clear();
                                 destinationLocation.clear();
                               }
                             } else if (desFocus.hasFocus) {
                               destinationLocation.text = mData.description!;
-                              polylineDestination = LatLng(data!.location!.lat!, data.location!.lng!);
-                              if (sourceLocation.text.isNotEmpty && destinationLocation.text.isNotEmpty) {
+                              polylineDestination = LatLng(
+                                  data!.location!.lat!, data.location!.lng!);
+                              if (sourceLocation.text.isNotEmpty &&
+                                  destinationLocation.text.isNotEmpty) {
                                 launchScreen(
-                                    context, NewEstimateRideListWidget(sourceLatLog: polylineSource, destinationLatLog: polylineDestination, sourceTitle: sourceLocation.text, destinationTitle: destinationLocation.text),
-                                    pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                                    context,
+                                    NewEstimateRideListWidget(
+                                        sourceLatLog: polylineSource,
+                                        destinationLatLog: polylineDestination,
+                                        sourceTitle: sourceLocation.text,
+                                        destinationTitle:
+                                            destinationLocation.text),
+                                    pageRouteAnimation:
+                                        PageRouteAnimation.SlideBottomTop);
                                 sourceLocation.clear();
                                 destinationLocation.clear();
                               }
@@ -273,36 +323,61 @@ class RiderWidgetState extends State<RiderWidget> {
                     onTap: () async {
                       if (sourceFocus.hasFocus) {
                         isDone = true;
-                        PickResult selectedPlace = await launchScreen(context, GoogleMapScreen(isDestination: false), pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                        PickResult selectedPlace = await launchScreen(
+                            context, GoogleMapScreen(isDestination: false),
+                            pageRouteAnimation:
+                                PageRouteAnimation.SlideBottomTop);
                         log(selectedPlace);
                         mLocation = selectedPlace.formattedAddress!;
                         sourceLocation.text = selectedPlace.formattedAddress!;
-                        polylineSource = LatLng(selectedPlace.geometry!.location.lat, selectedPlace.geometry!.location.lng);
+                        polylineSource = LatLng(
+                            selectedPlace.geometry!.location.lat,
+                            selectedPlace.geometry!.location.lng);
 
-                        if (sourceLocation.text.isNotEmpty && destinationLocation.text.isNotEmpty) {
+                        if (sourceLocation.text.isNotEmpty &&
+                            destinationLocation.text.isNotEmpty) {
                           log(sourceLocation.text);
                           log(destinationLocation.text);
 
                           launchScreen(
-                              context, NewEstimateRideListWidget(sourceLatLog: polylineSource, destinationLatLog: polylineDestination, sourceTitle: sourceLocation.text, destinationTitle: destinationLocation.text),
-                              pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                              context,
+                              NewEstimateRideListWidget(
+                                  sourceLatLog: polylineSource,
+                                  destinationLatLog: polylineDestination,
+                                  sourceTitle: sourceLocation.text,
+                                  destinationTitle: destinationLocation.text),
+                              pageRouteAnimation:
+                                  PageRouteAnimation.SlideBottomTop);
 
                           sourceLocation.clear();
                           destinationLocation.clear();
                         }
                       } else if (desFocus.hasFocus) {
-                        PickResult selectedPlace = await launchScreen(context, GoogleMapScreen(isDestination: true), pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                        PickResult selectedPlace = await launchScreen(
+                            context, GoogleMapScreen(isDestination: true),
+                            pageRouteAnimation:
+                                PageRouteAnimation.SlideBottomTop);
 
-                        destinationLocation.text = selectedPlace.formattedAddress!;
-                        polylineDestination = LatLng(selectedPlace.geometry!.location.lat, selectedPlace.geometry!.location.lng);
+                        destinationLocation.text =
+                            selectedPlace.formattedAddress!;
+                        polylineDestination = LatLng(
+                            selectedPlace.geometry!.location.lat,
+                            selectedPlace.geometry!.location.lng);
 
-                        if (sourceLocation.text.isNotEmpty && destinationLocation.text.isNotEmpty) {
+                        if (sourceLocation.text.isNotEmpty &&
+                            destinationLocation.text.isNotEmpty) {
                           log(sourceLocation.text);
                           log(destinationLocation.text);
 
                           launchScreen(
-                              context, NewEstimateRideListWidget(sourceLatLog: polylineSource, destinationLatLog: polylineDestination, sourceTitle: sourceLocation.text, destinationTitle: destinationLocation.text),
-                              pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+                              context,
+                              NewEstimateRideListWidget(
+                                  sourceLatLog: polylineSource,
+                                  destinationLatLog: polylineDestination,
+                                  sourceTitle: sourceLocation.text,
+                                  destinationTitle: destinationLocation.text),
+                              pageRouteAnimation:
+                                  PageRouteAnimation.SlideBottomTop);
 
                           sourceLocation.clear();
                           destinationLocation.clear();
@@ -316,7 +391,8 @@ class RiderWidgetState extends State<RiderWidget> {
                       children: [
                         Icon(Icons.my_location_sharp, color: Colors.white),
                         SizedBox(width: 16),
-                        Text(language.chooseOnMap, style: boldTextStyle(color: Colors.white)),
+                        Text(language.chooseOnMap,
+                            style: boldTextStyle(color: Colors.white)),
                       ],
                     ),
                   ),

@@ -130,7 +130,7 @@ class RidePaymentDetailScreenState extends State<RidePaymentDetailScreen> {
     client.autoReconnect = true;
 
     try {
-      await client.connect();
+      await client.connect('oncab_rider', '0nC@b_R!d3r');
     } on NoConnectionException catch (e) {
       debugPrint(e.toString());
       client.connect();
