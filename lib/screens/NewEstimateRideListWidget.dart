@@ -324,31 +324,35 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
       LatLng? driverLocation}) async {
     _polyLines.clear();
     polylineCoordinates.clear();
-    // var result = await polylinePoints.getRouteBetweenCoordinates(
-    //   GOOGLE_MAP_API_KEY,
-    //   PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-    //   rideRequest != null &&
-    //           (rideRequest!.status == ACCEPTED ||
-    //               rideRequest!.status == ARRIVING ||
-    //               rideRequest!.status == ARRIVED)
-    //       ? PointLatLng(driverLocation!.latitude, driverLocation.longitude)
-    //       : PointLatLng(
-    //           destinationLocation.latitude, destinationLocation.longitude),
-    // );
+    var request = PolylineRequest(
+      origin: PointLatLng(driverLocation!.latitude, driverLocation!.longitude),
+      destination: servicesListData!.status != IN_PROGRESS
+          ? PointLatLng(
+              double.parse(servicesListData!.startLatitude.validate()),
+              double.parse(servicesListData!.startLongitude.validate()))
+          : PointLatLng(double.parse(servicesListData!.endLatitude.validate()),
+              double.parse(servicesListData!.endLongitude.validate())),
+      mode: TravelMode
+          .driving, // Set the mode of travel (driving, walking, bicycling, etc.)
+    );
+    var result = await polylinePoints.getRouteBetweenCoordinates(
+      request: request,
+      googleApiKey: GOOGLE_MAP_API_KEY,
+    );
 
-    // if (result.points.isNotEmpty) {
-    //   result.points.forEach((element) {
-    //     polylineCoordinates.add(LatLng(element.latitude, element.longitude));
-    //   });
-    //   _polyLines.add(Polyline(
-    //     visible: true,
-    //     width: 5,
-    //     polylineId: PolylineId('poly'),
-    //     color: Color.fromARGB(255, 40, 122, 198),
-    //     points: polylineCoordinates,
-    //   ));
-    //   setState(() {});
-    // }
+    if (result.points.isNotEmpty) {
+      result.points.forEach((element) {
+        polylineCoordinates.add(LatLng(element.latitude, element.longitude));
+      });
+      _polyLines.add(Polyline(
+        visible: true,
+        width: 10,
+        polylineId: PolylineId('poly'),
+        color: Color.fromARGB(255, 40, 122, 198),
+        points: polylineCoordinates,
+      ));
+      setState(() {});
+    }
   }
 
   onMapCreated(GoogleMapController controller) async {

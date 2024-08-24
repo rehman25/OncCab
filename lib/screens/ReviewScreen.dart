@@ -218,6 +218,7 @@ class ReviewScreenState extends State<ReviewScreen> {
                     itemPadding: EdgeInsets.symmetric(horizontal: 8),
                     itemBuilder: (context, _) =>
                         Icon(Icons.star, color: Colors.amber),
+                    unratedColor: Colors.grey[50],
                     onRatingUpdate: (rating) {
                       rattingData = rating;
                     },
