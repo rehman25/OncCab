@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:taxi_booking/model/UserDetailModel.dart';
 import '../model/LoginResponse.dart';
 import '../utils/Extensions/StringExtensions.dart';
 
@@ -47,9 +48,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   init() async {
     id = sharedPref.getString(UID)!;
+    log('${id} issss');
+
+    // Ensure the UID and userData are valid
+    // if (id.isEmpty || widget.userData?.uid?.validate().isEmpty ?? true) {
+    //   print("Error: UID or Receiver UID is empty or null.");
+    //   return;
+    // }
 
     chatMessageService = ChatMessageService();
-    chatMessageService.setUnReadStatusToTrue(senderId: sender.uid!, receiverId: widget.userData!.uid.validate());
+    chatMessageService.setUnReadStatusToTrue(
+        senderId: sender.uid!, receiverId: widget.userData!.uid.validate());
     setState(() {});
   }
 
@@ -80,7 +89,11 @@ class _ChatScreenState extends State<ChatScreen> {
       data.messageType = MessageType.TEXT.name;
     }
 
-    notificationService.sendPushNotifications(sharedPref.getString(USER_NAME)!, messageCont.text, receiverPlayerId: widget.userData!.playerId).catchError(log);
+    notificationService
+        .sendPushNotifications(
+            sharedPref.getString(USER_NAME)!, messageCont.text,
+            receiverPlayerId: widget.userData!.playerId)
+        .catchError(log);
     messageCont.clear();
     setState(() {});
     return await chatMessageService.addMessage(data).then((value) async {
@@ -93,7 +106,10 @@ class _ChatScreenState extends State<ChatScreen> {
         setState(() {});
       }
 
-      await chatMessageService.addMessageToDb(value, data, sender, widget.userData, image: result != null ? File(result.files.single.path!) : null).then((value) {
+      await chatMessageService
+          .addMessageToDb(value, data, sender, widget.userData,
+              image: result != null ? File(result.files.single.path!) : null)
+          .then((value) {
         //
       });
 
@@ -102,7 +118,9 @@ class _ChatScreenState extends State<ChatScreen> {
           .doc(sharedPref.getInt(USER_ID).toString())
           .collection(CONTACT_COLLECTION)
           .doc(widget.userData!.uid)
-          .update({'lastMessageTime': DateTime.now().millisecondsSinceEpoch}).catchError((e) {
+          .update({
+        'lastMessageTime': DateTime.now().millisecondsSinceEpoch
+      }).catchError((e) {
         log(e);
       });
       userService.fireStore
@@ -110,7 +128,9 @@ class _ChatScreenState extends State<ChatScreen> {
           .doc(widget.userData!.uid)
           .collection(CONTACT_COLLECTION)
           .doc(sharedPref.getInt(USER_ID).toString())
-          .update({'lastMessageTime': DateTime.now().millisecondsSinceEpoch}).catchError((e) {
+          .update({
+        'lastMessageTime': DateTime.now().millisecondsSinceEpoch
+      }).catchError((e) {
         log(e);
       });
     });
@@ -133,11 +153,15 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             SizedBox(width: 10),
-            CircleAvatar(backgroundImage: NetworkImage(widget.userData!.profileImage.validate()), minRadius: 20),
+            CircleAvatar(
+                backgroundImage:
+                    NetworkImage(widget.userData!.profileImage.validate()),
+                minRadius: 20),
             SizedBox(width: 10),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
-              child: Text(widget.userData!.firstName.validate(), style: TextStyle(color: Colors.white)),
+              child: Text(widget.userData!.firstName.validate(),
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -157,13 +181,16 @@ class _ChatScreenState extends State<ChatScreen> {
                 isLive: true,
                 padding: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 0),
                 physics: BouncingScrollPhysics(),
-                query: chatMessageService.chatMessagesWithPagination(currentUserId: sharedPref.getString(UID), receiverUserId: widget.userData!.uid.validate()),
+                query: chatMessageService.chatMessagesWithPagination(
+                    currentUserId: sharedPref.getString(UID),
+                    receiverUserId: widget.userData!.uid.validate()),
                 itemsPerPage: PER_PAGE_CHAT_COUNT,
                 shrinkWrap: true,
                 onEmpty: Offstage(),
                 itemBuilderType: PaginateBuilderType.listView,
                 itemBuilder: (context, snap, index) {
-                  ChatMessageModel data = ChatMessageModel.fromJson(snap[index].data() as Map<String, dynamic>);
+                  ChatMessageModel data = ChatMessageModel.fromJson(
+                      snap[index].data() as Map<String, dynamic>);
                   data.isMe = data.senderId == sender.uid;
                   return ChatItemWidget(data: data);
                 },
@@ -196,13 +223,16 @@ class _ChatScreenState extends State<ChatScreen> {
                           hintStyle: secondaryTextStyle(),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
                         ),
-                        cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
+                        cursorColor:
+                            appStore.isDarkMode ? Colors.white : Colors.black,
                         focusNode: messageFocus,
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.multiline,
                         minLines: 1,
                         style: primaryTextStyle(),
-                        textInputAction: mIsEnterKey ? TextInputAction.send : TextInputAction.newline,
+                        textInputAction: mIsEnterKey
+                            ? TextInputAction.send
+                            : TextInputAction.newline,
                         onSubmitted: (s) {
                           sendMessage();
                         },

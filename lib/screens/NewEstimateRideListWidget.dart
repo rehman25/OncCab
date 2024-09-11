@@ -163,7 +163,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
   }
 
   Future<void> getServiceList() async {
-    markers.clear();
+    // markers.clear();
     polylinePoints = PolylinePoints();
     setPolyLines(
       sourceLocation:
@@ -359,27 +359,27 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
     _googleMapController = controller;
     _controller.complete(controller);
     await Future.delayed(Duration(milliseconds: 50));
-    _googleMapController!.animateCamera(CameraUpdate.newLatLngBounds(
-        LatLngBounds(
-            southwest: LatLng(
-                widget.sourceLatLog.latitude <=
-                        widget.destinationLatLog.latitude
-                    ? widget.sourceLatLog.latitude
-                    : widget.destinationLatLog.latitude,
-                widget.sourceLatLog.longitude <=
-                        widget.destinationLatLog.longitude
-                    ? widget.sourceLatLog.longitude
-                    : widget.destinationLatLog.longitude),
-            northeast: LatLng(
-                widget.sourceLatLog.latitude <=
-                        widget.destinationLatLog.latitude
-                    ? widget.destinationLatLog.latitude
-                    : widget.sourceLatLog.latitude,
-                widget.sourceLatLog.longitude <=
-                        widget.destinationLatLog.longitude
-                    ? widget.destinationLatLog.longitude
-                    : widget.sourceLatLog.longitude)),
-        100));
+    // _googleMapController!.animateCamera(CameraUpdate.newLatLngBounds(
+    //     LatLngBounds(
+    //         southwest: LatLng(
+    //             widget.sourceLatLog.latitude <=
+    //                     widget.destinationLatLog.latitude
+    //                 ? widget.sourceLatLog.latitude
+    //                 : widget.destinationLatLog.latitude,
+    //             widget.sourceLatLog.longitude <=
+    //                     widget.destinationLatLog.longitude
+    //                 ? widget.sourceLatLog.longitude
+    //                 : widget.destinationLatLog.longitude),
+    //         northeast: LatLng(
+    //             widget.sourceLatLog.latitude <=
+    //                     widget.destinationLatLog.latitude
+    //                 ? widget.destinationLatLog.latitude
+    //                 : widget.sourceLatLog.latitude,
+    //             widget.sourceLatLog.longitude <=
+    //                     widget.destinationLatLog.longitude
+    //                 ? widget.destinationLatLog.longitude
+    //                 : widget.sourceLatLog.longitude)),
+    //     100));
     setState(() {});
   }
 
@@ -724,20 +724,21 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
             //     : MediaQuery.of(context).size.height * 0.55,
             height: MediaQuery.of(context).size.height,
             child: GoogleMap(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.25),
-              mapToolbarEnabled: false,
-              zoomControlsEnabled: false,
+              mapToolbarEnabled: true,
+              buildingsEnabled: true,
+              trafficEnabled: true,
+              zoomControlsEnabled: true,
+              indoorViewEnabled: true,
+              myLocationEnabled: true,
               onMapCreated: onMapCreated,
+              polylines: _polyLines,
               initialCameraPosition: CameraPosition(
-                target: widget.sourceLatLog ??
-                    LatLng(sharedPref.getDouble(LATITUDE)!,
-                        sharedPref.getDouble(LONGITUDE)!),
-                zoom: 17,
+                target: LatLng(sharedPref.getDouble(LATITUDE)!,
+                    sharedPref.getDouble(LONGITUDE)!),
+                zoom: 17.0,
               ),
               markers: markers,
               mapType: MapType.normal,
-              polylines: _polyLines,
             ),
           ),
           !isBooking

@@ -33,7 +33,9 @@ Widget dotIndicator(list, i) {
             height: 8,
             width: 8,
             margin: EdgeInsets.all(4),
-            decoration: BoxDecoration(color: i == ind ? Colors.white : Colors.grey.withOpacity(0.5), borderRadius: BorderRadius.circular(defaultRadius)),
+            decoration: BoxDecoration(
+                color: i == ind ? Colors.white : Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(defaultRadius)),
           );
         },
       ),
@@ -41,15 +43,28 @@ Widget dotIndicator(list, i) {
   );
 }
 
-InputDecoration inputDecoration(BuildContext context, {String? label, Widget? prefixIcon, Widget? suffixIcon}) {
+InputDecoration inputDecoration(BuildContext context,
+    {String? label, Widget? prefixIcon, Widget? suffixIcon}) {
   return InputDecoration(
     prefixIcon: prefixIcon,
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-    disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: Colors.black)),
-    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: dividerColor)),
-    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(defaultRadius), borderSide: BorderSide(color: Colors.red)),
+    border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: dividerColor)),
+    focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: dividerColor)),
+    disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: dividerColor)),
+    focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: Color(0xFFCAA928))),
+    enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: dividerColor)),
+    errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(defaultRadius),
+        borderSide: BorderSide(color: Colors.red)),
     alignLabelWithHint: true,
     filled: false,
     isDense: true,
@@ -69,14 +84,30 @@ EdgeInsets dynamicAppButtonPadding(BuildContext context) {
 }
 
 Widget inkWellWidget({Function()? onTap, required Widget child}) {
-  return InkWell(onTap: onTap, child: child, highlightColor: Colors.transparent, hoverColor: Colors.transparent, splashColor: Colors.transparent);
+  return InkWell(
+      onTap: onTap,
+      child: child,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent);
 }
 
 bool get isRTL => rtlLanguage.contains(appStore.selectedLanguage);
 
-Widget commonCachedNetworkImage(String? url, {double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, bool usePlaceholderIfUrlEmpty = true, double? radius}) {
+Widget commonCachedNetworkImage(String? url,
+    {double? height,
+    double? width,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    bool usePlaceholderIfUrlEmpty = true,
+    double? radius}) {
   if (url != null && url.isEmpty) {
-    return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+    return placeHolderWidget(
+        height: height,
+        width: width,
+        fit: fit,
+        alignment: alignment,
+        radius: radius);
   } else if (url.validate().startsWith('http')) {
     return CachedNetworkImage(
       imageUrl: url!,
@@ -85,20 +116,43 @@ Widget commonCachedNetworkImage(String? url, {double? height, double? width, Box
       fit: fit,
       alignment: alignment as Alignment? ?? Alignment.center,
       errorWidget: (_, s, d) {
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderWidget(
+            height: height,
+            width: width,
+            fit: fit,
+            alignment: alignment,
+            radius: radius);
       },
       placeholder: (_, s) {
         if (!usePlaceholderIfUrlEmpty) return SizedBox();
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderWidget(
+            height: height,
+            width: width,
+            fit: fit,
+            alignment: alignment,
+            radius: radius);
       },
     );
   } else {
-    return Image.network(url!, height: height, width: width, fit: fit, alignment: alignment ?? Alignment.center);
+    return Image.network(url!,
+        height: height,
+        width: width,
+        fit: fit,
+        alignment: alignment ?? Alignment.center);
   }
 }
 
-Widget placeHolderWidget({double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, double? radius}) {
-  return Image.asset('images/placeholder.jpg', height: height, width: width, fit: fit ?? BoxFit.cover, alignment: alignment ?? Alignment.center);
+Widget placeHolderWidget(
+    {double? height,
+    double? width,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    double? radius}) {
+  return Image.asset('images/placeholder.jpg',
+      height: height,
+      width: width,
+      fit: fit ?? BoxFit.cover,
+      alignment: alignment ?? Alignment.center);
 }
 
 List<BoxShadow> defaultBoxShadow({
@@ -124,8 +178,6 @@ const double degrees2Radians = pi / 180.0;
 
 double radians(double degrees) => degrees * degrees2Radians;
 
-
-
 Future<bool> isNetworkAvailable() async {
   var connectivityResult = await Connectivity().checkConnectivity();
   return connectivityResult != ConnectivityResult.none;
@@ -143,28 +195,36 @@ Widget loaderWidget() {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.4), blurRadius: 10, spreadRadius: 0, offset: Offset(0.0, 0.0)),
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.4),
+              blurRadius: 10,
+              spreadRadius: 0,
+              offset: Offset(0.0, 0.0)),
         ],
       ),
       width: 50,
       height: 50,
-      child: CircularProgressIndicator(strokeWidth: 3,color: primaryColor),
+      child: CircularProgressIndicator(strokeWidth: 3, color: primaryColor),
     ),
   );
 }
 
 void afterBuildCreated(Function()? onCreated) {
-  makeNullable(SchedulerBinding.instance)!.addPostFrameCallback((_) => onCreated?.call());
+  makeNullable(SchedulerBinding.instance)!
+      .addPostFrameCallback((_) => onCreated?.call());
 }
 
 T? makeNullable<T>(T? value) => value;
 
 String printDate(String date) {
-  return DateFormat('dd MMM yyyy').format(DateTime.parse(date).toLocal()) + " at " + DateFormat('hh:mm a').format(DateTime.parse(date).toLocal());
+  return DateFormat('dd MMM yyyy').format(DateTime.parse(date).toLocal()) +
+      " at " +
+      DateFormat('hh:mm a').format(DateTime.parse(date).toLocal());
 }
 
 Widget emptyWidget() {
-  return Center(child: Image.asset('images/no_data.png', width: 150, height: 250));
+  return Center(
+      child: Image.asset('images/no_data.png', width: 150, height: 250));
 }
 
 String statusTypeIcon({String? type}) {
@@ -187,7 +247,8 @@ String statusTypeIcon({String? type}) {
   return icon;
 }
 
-Widget scheduleOptionWidget(BuildContext context, bool isSelected, String imagePath, String title) {
+Widget scheduleOptionWidget(
+    BuildContext context, bool isSelected, String imagePath, String title) {
   return Container(
     padding: EdgeInsets.all(16),
     decoration: BoxDecoration(
@@ -200,7 +261,8 @@ Widget scheduleOptionWidget(BuildContext context, bool isSelected, String imageP
     ),
     child: Row(
       children: [
-        ImageIcon(AssetImage(imagePath), size: 20, color: isSelected ? primaryColor : Colors.grey),
+        ImageIcon(AssetImage(imagePath),
+            size: 20, color: isSelected ? primaryColor : Colors.grey),
         SizedBox(width: 16),
         Text(title, style: boldTextStyle()),
       ],
@@ -213,8 +275,15 @@ Widget totalCount({String? title, num? amount, bool? isTotal = false}) {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Expanded(child: Text(title.toString(), style: isTotal == true ? boldTextStyle(color: Colors.green, size: 18) : secondaryTextStyle())),
-      Text(printAmount(amount!.toStringAsFixed(digitAfterDecimal)), style: isTotal == true ? boldTextStyle(color: Colors.green, size: 18) : boldTextStyle(size: 14)),
+      Expanded(
+          child: Text(title.toString(),
+              style: isTotal == true
+                  ? boldTextStyle(color: Colors.green, size: 18)
+                  : secondaryTextStyle())),
+      Text(printAmount(amount!.toStringAsFixed(digitAfterDecimal)),
+          style: isTotal == true
+              ? boldTextStyle(color: Colors.green, size: 18)
+              : boldTextStyle(size: 14)),
     ],
   );
 }
@@ -223,14 +292,17 @@ Future<bool> checkPermission() async {
   // Request app level location permission
   LocationPermission locationPermission = await Geolocator.requestPermission();
 
-  if (locationPermission == LocationPermission.whileInUse || locationPermission == LocationPermission.always) {
+  if (locationPermission == LocationPermission.whileInUse ||
+      locationPermission == LocationPermission.always) {
     await Geolocator.getCurrentPosition().then((value) {
       sharedPref.setDouble(LATITUDE, value.latitude);
       sharedPref.setDouble(LONGITUDE, value.longitude);
     });
     // Check system level location permission
     if (!await Geolocator.isLocationServiceEnabled()) {
-      return await Geolocator.openLocationSettings().then((value) => false).catchError((e) => false);
+      return await Geolocator.openLocationSettings()
+          .then((value) => false)
+          .catchError((e) => false);
     } else {
       return true;
     }
@@ -327,7 +399,9 @@ String changeGender(String? name) {
 }
 
 String printAmount(String amount) {
-  return appStore.currencyPosition == LEFT ? '${appStore.currencyCode} $amount' : '$amount ${appStore.currencyCode}';
+  return appStore.currencyPosition == LEFT
+      ? '${appStore.currencyCode} $amount'
+      : '$amount ${appStore.currencyCode}';
 }
 
 String getMessageFromErrorCode(FirebaseException error) {
@@ -360,7 +434,8 @@ String getMessageFromErrorCode(FirebaseException error) {
 }
 
 Widget socialWidget({String? image, String? text}) {
-  return Image.asset(image.validate(), fit: BoxFit.cover, height: 30, width: 30);
+  return Image.asset(image.validate(),
+      fit: BoxFit.cover, height: 30, width: 30);
 }
 
 oneSignalSettings() async {
@@ -372,7 +447,8 @@ oneSignalSettings() async {
   OneSignal.initialize(mOneSignalAppIdRider);
 
   OneSignal.Notifications.addForegroundWillDisplayListener((event) {
-    print('NOTIFICATION WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
+    print(
+        'NOTIFICATION WILL DISPLAY LISTENER CALLED WITH: ${event.notification.jsonRepresentation()}');
     event.preventDefault();
     event.notification.display();
   });
@@ -383,11 +459,13 @@ oneSignalSettings() async {
   }
   OneSignal.Notifications.addClickListener((notification) async {
     var notId = notification.notification.additionalData!["id"];
-    log("$notId---" + notification.notification.additionalData!['type'].toString());
+    log("$notId---" +
+        notification.notification.additionalData!['type'].toString());
     var notType = notification.notification.additionalData!['type'];
     if (notId != null) {
       if (notId.toString().contains('CHAT')) {
-        LoginResponse user = await getUserDetail(userId: int.parse(notId.toString().replaceAll("CHAT_", "")));
+        LoginResponse user = await getUserDetail(
+            userId: int.parse(notId.toString().replaceAll("CHAT_", "")));
         launchScreen(getContext, ChatScreen(userData: user.data));
       } else if (notType == 'payment_status_message') {
         launchScreen(getContext, RideDetailScreen(orderId: notId));
@@ -405,7 +483,9 @@ Future<void> saveOneSignalPlayerId() async {
     print(OneSignal.User.pushSubscription.token);
     print(state.current.jsonRepresentation());
 
-    if (OneSignal.User.pushSubscription.id.validate().isNotEmpty) await sharedPref.setString(PLAYER_ID, OneSignal.User.pushSubscription.id.validate());
+    if (OneSignal.User.pushSubscription.id.validate().isNotEmpty)
+      await sharedPref.setString(
+          PLAYER_ID, OneSignal.User.pushSubscription.id.validate());
   });
 }
 

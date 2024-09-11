@@ -46,9 +46,9 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   late PolylinePoints polylinePoints;
   OnRideRequest? servicesListData;
 
-  double cameraZoom = 17.0, cameraTilt = 0;
+  double cameraZoom = 17.0, cameraTilt = 50;
 
-  double cameraBearing = 30;
+  double cameraBearing = 10;
   int onTapIndex = 0;
 
   int selectIndex = 0;
@@ -249,7 +249,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> startLocationTracking() async {
     Map req = {
-      // "status": "active",
+      "status": "active",
       "latitude": sourceLocation!.latitude.toString(),
       "longitude": sourceLocation!.longitude.toString(),
     };
@@ -281,7 +281,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               mapToolbarEnabled: true,
               zoomControlsEnabled: true,
               myLocationEnabled: true,
-              markers: markers.map((e) => e).toSet(),
+              // markers: markers.map((e) => e).toSet(),
               polylines: _polyLines,
               initialCameraPosition: CameraPosition(
                 target: sourceLocation ??
