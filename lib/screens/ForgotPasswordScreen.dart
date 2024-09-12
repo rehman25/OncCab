@@ -70,14 +70,18 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   Text(language.forgotPassword, style: boldTextStyle(size: 20)),
                   SizedBox(height: 16),
-                  Text(language.enterTheEmailAssociatedWithYourAccount, style: primaryTextStyle(size: 14), textAlign: TextAlign.start),
+                  Text(language.enterTheEmailAssociatedWithYourAccount,
+                      style: primaryTextStyle(size: 14),
+                      textAlign: TextAlign.start),
                   SizedBox(height: 32),
                   AppTextField(
                     controller: forgotEmailController,
                     autoFocus: false,
-                    textFieldType: TextFieldType.EMAIL,
+                    textFieldType: TextFieldType.PHONE,
+                    keyboardType: TextInputType.phone,
                     errorThisFieldRequired: language.thisFieldRequired,
-                    decoration: inputDecoration(context, label: language.email),
+                    decoration:
+                        inputDecoration(context, label: language.phoneNumber),
                   ),
                   SizedBox(height: 20),
                   AppButtonWidget(

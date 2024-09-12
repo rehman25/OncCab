@@ -156,7 +156,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                         TextSpan(
                             text: 'Sign up to get started ',
                             style: primaryTextStyle(size: 14)),
-                        TextSpan(text: '🚗', style: primaryTextStyle(size: 20)),
+                        // TextSpan(text: '🚗', style: primaryTextStyle(size: 20)),
                       ],
                     ),
                   ),

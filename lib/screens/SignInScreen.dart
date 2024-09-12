@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import '../utils/Extensions/context_extension.dart';
 import '../model/LoginResponse.dart';
 import '../utils/Extensions/StringExtensions.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 import '../../components/OTPDialog.dart';
 import '../../main.dart';
@@ -47,6 +48,7 @@ class SignInScreenState extends State<SignInScreen> {
   bool isAcceptedTc = false;
   String? privacyPolicy;
   String? termsCondition;
+  String countryCode = defaultCountryCode;
 
   @override
   void initState() {
@@ -72,12 +74,12 @@ class SignInScreenState extends State<SignInScreen> {
         appStore.setLoading(true);
 
         Map req = {
-          'email': emailController.text.trim(),
+          'contact_number': '$countryCode${emailController.text.trim()}',
           'password': passController.text.trim(),
           "player_id": sharedPref.getString(PLAYER_ID).validate(),
           'user_type': RIDER,
         };
-        log(req);
+        log('$req payload');
         await logInApi(req).then((value) {
           userModel = value.data!;
 
@@ -190,19 +192,66 @@ class SignInScreenState extends State<SignInScreen> {
                         TextSpan(
                             text: '${language.signContinue} ',
                             style: primaryTextStyle(size: 14)),
-                        TextSpan(text: '🚗', style: primaryTextStyle(size: 20)),
+                        // TextSpan(text: '🚗', style: primaryTextStyle(size: 20)),
                       ],
                     ),
                   ),
                   SizedBox(height: 40),
                   AppTextField(
                     controller: emailController,
+                    textFieldType: TextFieldType.PHONE,
+                    focus: emailFocus,
                     nextFocus: passFocus,
-                    autoFocus: false,
-                    textFieldType: TextFieldType.EMAIL,
-                    keyboardType: TextInputType.emailAddress,
-                    errorThisFieldRequired: language.thisFieldRequired,
-                    decoration: inputDecoration(context, label: language.email),
+                    decoration: inputDecoration(
+                      context,
+                      label: language.phoneNumber,
+                      prefixIcon: IntrinsicHeight(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CountryCodePicker(
+                              padding: EdgeInsets.zero,
+                              initialSelection: countryCode,
+                              showCountryOnly: false,
+                              dialogSize: Size(
+                                  MediaQuery.of(context).size.width - 60,
+                                  MediaQuery.of(context).size.height * 0.6),
+                              showFlag: true,
+                              showFlagDialog: true,
+                              showOnlyCountryWhenClosed: false,
+                              alignLeft: false,
+                              textStyle: primaryTextStyle(),
+                              dialogBackgroundColor:
+                                  Theme.of(context).cardColor,
+                              barrierColor: Colors.black12,
+                              dialogTextStyle: primaryTextStyle(),
+                              searchDecoration: InputDecoration(
+                                iconColor: Theme.of(context).dividerColor,
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).dividerColor)),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: primaryColor)),
+                              ),
+                              searchStyle: primaryTextStyle(),
+                              onInit: (c) {
+                                countryCode = c!.dialCode!;
+                              },
+                              onChanged: (c) {
+                                countryCode = c.dialCode!;
+                              },
+                            ),
+                            VerticalDivider(
+                                color: Colors.grey.withOpacity(0.5)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.trim().isEmpty) return errorThisFieldRequired;
+                      return null;
+                    },
                   ),
                   SizedBox(height: 16),
                   AppTextField(
@@ -407,50 +456,50 @@ class SignInScreenState extends State<SignInScreen> {
       children: [
         Padding(
           padding: EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Expanded(child: Divider(color: dividerColor)),
-              Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Text(language.orLogInWith, style: primaryTextStyle()),
-              ),
-              Expanded(child: Divider(color: dividerColor)),
-            ],
-          ),
+          // child: Row(
+          //   children: [
+          //     Expanded(child: Divider(color: dividerColor)),
+          //     Padding(
+          //       padding: EdgeInsets.only(left: 16, right: 16),
+          //       child: Text(language.orLogInWith, style: primaryTextStyle()),
+          //     ),
+          //     Expanded(child: Divider(color: dividerColor)),
+          //   ],
+          // ),
         ),
         SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            inkWellWidget(
-              onTap: () async {
-                googleSignIn();
-              },
-              child: socialWidgetComponent(img: ic_google),
-            ),
+            // inkWellWidget(
+            //   onTap: () async {
+            //     googleSignIn();
+            //   },
+            //   child: socialWidgetComponent(img: ic_google),
+            // ),
             SizedBox(width: 12),
-            inkWellWidget(
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                      contentPadding: EdgeInsets.all(16),
-                      content: OTPDialog(),
-                    );
-                  },
-                );
-                appStore.setLoading(false);
-              },
-              child: Container(
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    border: Border.all(color: dividerColor),
-                    borderRadius: radius(defaultRadius)),
-                child: Image.asset(ic_mobile,
-                    fit: BoxFit.cover, height: 30, width: 30),
-              ),
-            ),
+            // inkWellWidget(
+            //   onTap: () async {
+            //     showDialog(
+            //       context: context,
+            //       builder: (_) {
+            //         return AlertDialog(
+            //           contentPadding: EdgeInsets.all(16),
+            //           content: OTPDialog(),
+            //         );
+            //       },
+            //     );
+            //     appStore.setLoading(false);
+            //   },
+            //   child: Container(
+            //     padding: EdgeInsets.all(4),
+            //     decoration: BoxDecoration(
+            //         border: Border.all(color: dividerColor),
+            //         borderRadius: radius(defaultRadius)),
+            //     child: Image.asset(ic_mobile,
+            //         fit: BoxFit.cover, height: 30, width: 30),
+            //   ),
+            // ),
             if (Platform.isIOS) SizedBox(width: 12),
             if (Platform.isIOS)
               inkWellWidget(

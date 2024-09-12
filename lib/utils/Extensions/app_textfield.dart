@@ -127,16 +127,18 @@ class _AppTextFieldState extends State<AppTextField> {
     if (widget.isValidationRequired ?? true) {
       if (widget.validator != null) {
         return widget.validator;
-      } else if (widget.textFieldType == TextFieldType.EMAIL) {
-        return (s) {
-          if (s!.trim().isEmpty)
-            return widget.errorThisFieldRequired
-                .validate(value: errorThisFieldRequired);
-          if (!s.trim().validateEmail())
-            return widget.errorInvalidEmail.validate(value: 'Email is invalid');
-          return null;
-        };
-      } else if (widget.textFieldType == TextFieldType.PASSWORD) {
+      }
+      // else if (widget.textFieldType == TextFieldType.EMAIL) {
+      //   return (s) {
+      //     if (s!.trim().isEmpty)
+      //       return widget.errorThisFieldRequired
+      //           .validate(value: errorThisFieldRequired);
+      //     if (!s.trim().validateEmail())
+      //       return widget.errorInvalidEmail.validate(value: 'Email is invalid');
+      //     return null;
+      //   };
+      // }
+      else if (widget.textFieldType == TextFieldType.PASSWORD) {
         return (s) {
           if (s!.trim().isEmpty)
             return widget.errorThisFieldRequired
