@@ -27,7 +27,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Color(0xFF000000),
+        color: Color(0xFFFFFFFF),
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -65,11 +65,11 @@ class _DrawerComponentState extends State<DrawerComponent> {
                                             .validate()
                                             .capitalizeFirstLetter(),
                                     style: boldTextStyle(
-                                        color: Color(0xFFCAA928))),
+                                        color: Color(0xFF00155f))),
                                 SizedBox(height: 4),
                                 Text(appStore.userEmail,
                                     style: secondaryTextStyle(
-                                        color: Color(0xFFCAA928))),
+                                        color: Color(0xFF00155f))),
                               ],
                             ),
                           ),

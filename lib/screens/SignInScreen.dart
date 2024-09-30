@@ -61,7 +61,7 @@ class SignInScreenState extends State<SignInScreen> {
     await saveOneSignalPlayerId().then((value) {});
     mIsCheck = sharedPref.getBool(REMEMBER_ME) ?? false;
     if (mIsCheck) {
-      emailController.text = sharedPref.getString(USER_EMAIL).validate();
+      emailController.text = sharedPref.getString(CONTACT_NUMBER).validate();
       passController.text = sharedPref.getString(USER_PASSWORD).validate();
     }
   }
@@ -115,6 +115,8 @@ class SignInScreenState extends State<SignInScreen> {
                   isNewTask: true,
                   pageRouteAnimation: PageRouteAnimation.Slide);
             }
+            toast(e.toString());
+
             log(e.toString());
           });
           appStore.setLoading(false);

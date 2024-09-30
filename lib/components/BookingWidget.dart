@@ -140,6 +140,7 @@ class BookingWidgetState extends State<BookingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,

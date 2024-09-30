@@ -623,7 +623,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
                         alignLeft: false,
                         textStyle: primaryTextStyle(),
                         dialogBackgroundColor: Theme.of(context).cardColor,
-                        barrierColor: Colors.black12,
+                        barrierColor: Colors.white,
                         dialogTextStyle: primaryTextStyle(),
                         searchDecoration: InputDecoration(
                           iconColor: Theme.of(context).dividerColor,
@@ -695,7 +695,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         leadingWidth: 40,
         leading: Visibility(
           visible: !isBooking,
@@ -775,7 +775,7 @@ class NewEstimateRideListWidgetState extends State<NewEstimateRideListWidget> {
           child: Container(
             // height: isRideSelection == false && appStore.isRiderForAnother == "1" ? MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.height * 0.45,
             decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(defaultRadius),
                     topRight: Radius.circular(defaultRadius))),

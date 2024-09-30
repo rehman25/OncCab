@@ -46,27 +46,41 @@ class SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(language.settings, style: boldTextStyle(color: appTextPrimaryColorWhite)),
+        title: Text(language.settings,
+            style: boldTextStyle(color: appTextPrimaryColorWhite)),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 16, top: 16),
         child: Column(
           children: [
             Visibility(
-              visible: sharedPref.getString(LOGIN_TYPE) != 'mobile' && sharedPref.getString(LOGIN_TYPE) != LoginTypeGoogle && sharedPref.getString(LOGIN_TYPE) != null,
-              child: settingItemWidget(Ionicons.ios_lock_closed_outline, language.changePassword, () {
-                launchScreen(context, ChangePasswordScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
+              visible: sharedPref.getString(LOGIN_TYPE) != 'mobile' &&
+                  sharedPref.getString(LOGIN_TYPE) != LoginTypeGoogle &&
+                  sharedPref.getString(LOGIN_TYPE) != null,
+              child: settingItemWidget(
+                  Ionicons.ios_lock_closed_outline, language.changePassword,
+                  () {
+                launchScreen(context, ChangePasswordScreen(),
+                    pageRouteAnimation: PageRouteAnimation.Slide);
               }),
             ),
             settingItemWidget(Ionicons.language_outline, language.language, () {
-              launchScreen(context, LanguageScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
+              launchScreen(context, LanguageScreen(),
+                  pageRouteAnimation: PageRouteAnimation.Slide);
             }),
             if (appStore.privacyPolicy != null)
-              settingItemWidget(Ionicons.ios_document_outline, language.privacyPolicy, () {
-                launchScreen(context, TermsConditionScreen(title: language.privacyPolicy, subtitle: appStore.privacyPolicy), pageRouteAnimation: PageRouteAnimation.Slide);
+              settingItemWidget(
+                  Ionicons.ios_document_outline, language.privacyPolicy, () {
+                launchScreen(
+                    context,
+                    TermsConditionScreen(
+                        title: language.privacyPolicy,
+                        subtitle: appStore.privacyPolicy),
+                    pageRouteAnimation: PageRouteAnimation.Slide);
               }),
             if (appStore.mHelpAndSupport != null)
-              settingItemWidget(Ionicons.help_outline, language.helpSupport, () {
+              settingItemWidget(Ionicons.help_outline, language.helpSupport,
+                  () {
                 if (mHelpAndSupport != null) {
                   launchUrl(Uri.parse(appStore.mHelpAndSupport!));
                 } else {
@@ -74,9 +88,15 @@ class SettingScreenState extends State<SettingScreen> {
                 }
               }),
             if (appStore.termsCondition != null)
-              settingItemWidget(Ionicons.document_outline, language.termsConditions, () {
+              settingItemWidget(
+                  Ionicons.document_outline, language.termsConditions, () {
                 if (appStore.termsCondition != null) {
-                  launchScreen(context, TermsConditionScreen(title: language.termsConditions, subtitle: appStore.termsCondition), pageRouteAnimation: PageRouteAnimation.Slide);
+                  launchScreen(
+                      context,
+                      TermsConditionScreen(
+                          title: language.termsConditions,
+                          subtitle: appStore.termsCondition),
+                      pageRouteAnimation: PageRouteAnimation.Slide);
                 } else {
                   toast(language.txtURLEmpty);
                 }
@@ -85,11 +105,15 @@ class SettingScreenState extends State<SettingScreen> {
               Ionicons.information,
               language.aboutUs,
               () {
-                launchScreen(context, AboutScreen(settingModel: appStore.settingModel), pageRouteAnimation: PageRouteAnimation.Slide);
+                launchScreen(
+                    context, AboutScreen(settingModel: appStore.settingModel),
+                    pageRouteAnimation: PageRouteAnimation.Slide);
               },
             ),
-            settingItemWidget(Ionicons.ios_trash_outline, language.deleteAccount, () {
-              launchScreen(context, DeleteAccountScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
+            settingItemWidget(
+                Ionicons.ios_trash_outline, language.deleteAccount, () {
+              launchScreen(context, DeleteAccountScreen(),
+                  pageRouteAnimation: PageRouteAnimation.Slide);
             }, isLast: true),
           ],
         ),
@@ -97,7 +121,8 @@ class SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Widget settingItemWidget(IconData icon, String title, Function() onTap, {bool isLast = false, Widget? suffixIcon}) {
+  Widget settingItemWidget(IconData icon, String title, Function() onTap,
+      {bool isLast = false, Widget? suffixIcon}) {
     return inkWellWidget(
       onTap: onTap,
       child: Padding(
@@ -106,12 +131,16 @@ class SettingScreenState extends State<SettingScreen> {
           children: [
             Container(
               padding: EdgeInsets.all(6),
-              decoration: BoxDecoration(border: Border.all(color: dividerColor), borderRadius: radius(defaultRadius)),
+              decoration: BoxDecoration(
+                  border: Border.all(color: dividerColor),
+                  borderRadius: radius(defaultRadius)),
               child: Icon(icon, size: 20, color: primaryColor),
             ),
             SizedBox(width: 12),
             Expanded(child: Text(title, style: primaryTextStyle())),
-            suffixIcon != null ? suffixIcon : Icon(Icons.navigate_next, color: dividerColor),
+            suffixIcon != null
+                ? suffixIcon
+                : Icon(Icons.navigate_next, color: dividerColor),
           ],
         ),
       ),

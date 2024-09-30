@@ -11,7 +11,7 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: createMaterialColor(primaryColor),
     primaryColor: primaryColor,
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: Color(0xFFFFFFFF),
     fontFamily: GoogleFonts.roboto().fontFamily,
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: Colors.white),
@@ -21,7 +21,7 @@ class AppTheme {
     unselectedWidgetColor: Colors.black,
     dividerColor: viewLineColor,
     cardColor: Colors.white,
-    //bottomSheetTheme: BottomSheetThemeData(backgroundColor: primaryColor),
+    // bottomSheetTheme: BottomSheetThemeData(backgroundColor: primaryColor),
     listTileTheme: ListTileThemeData(iconColor: Colors.white),
     dialogTheme: DialogTheme(shape: dialogShape()),
     appBarTheme: AppBarTheme(

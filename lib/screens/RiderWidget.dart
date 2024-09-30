@@ -154,19 +154,19 @@ class RiderWidgetState extends State<RiderWidget> {
                                   if (isPickup == true)
                                     Text(language.lblWhereAreYou,
                                         style: secondaryTextStyle(
-                                            color: Color(0xFFCAA928))),
+                                            color: Color(0xFF00155f))),
                                   TextFormField(
                                     controller: sourceLocation,
                                     focusNode: sourceFocus,
-                                    style: TextStyle(color: Color(0xFFCAA928)),
+                                    style: TextStyle(color: Color(0xFF00155f)),
                                     decoration: InputDecoration(
                                         contentPadding:
                                             EdgeInsets.symmetric(vertical: 8),
                                         isDense: true,
                                         hintStyle: primaryTextStyle(
-                                            color: Color(0xFFCAA928)),
+                                            color: Color(0xFF00155f)),
                                         labelStyle: primaryTextStyle(
-                                            color: Color(0xFFCAA928)),
+                                            color: Color(0xFF00155f)),
                                         hintText: language.currentLocation),
                                     onTap: () {
                                       isPickup = false;
@@ -199,12 +199,12 @@ class RiderWidgetState extends State<RiderWidget> {
                                   if (isDrop == true)
                                     Text(language.lblDropOff,
                                         style: secondaryTextStyle(
-                                            color: Color(0xFFCAA928))),
+                                            color: Color(0xFF00155f))),
                                   TextFormField(
                                     controller: destinationLocation,
                                     focusNode: desFocus,
                                     autofocus: true,
-                                    style: TextStyle(color: Color(0xFFCAA928)),
+                                    style: TextStyle(color: Color(0xFF00155f)),
                                     decoration: InputDecoration(
                                         contentPadding:
                                             EdgeInsets.symmetric(vertical: 8),
